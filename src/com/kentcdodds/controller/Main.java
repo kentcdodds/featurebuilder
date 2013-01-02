@@ -7,7 +7,6 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +20,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.fluent.Content;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.client.utils.URIBuilder;
@@ -39,7 +34,7 @@ import org.apache.http.util.EntityUtils;
  *
  * @author kentdodds
  */
-public class MainController {
+public class Main {
 
   public static final String SCHEME = "https";
   private HttpClient client = new DefaultHttpClient();
@@ -56,14 +51,14 @@ public class MainController {
   /**
    * Setting the limit to less than 0 will effectively make no limit.
    */
-  public static final int limit = -1, offset = 15;
+  public static final int limit = 4, offset = 15;
 
   /**
    * @param args the command line arguments
    */
   public static void main(String[] args) throws Exception {
     CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-    MainController mc = new MainController();
+    Main mc = new Main();
     mc.setup();
     if (!mc.signin()) {
       return;
@@ -159,15 +154,15 @@ public class MainController {
       };
       try {
         requestBase.setURI(buildURI(endpoint));
-        
+
         endpoints.add(requestBase);
       } catch (URISyntaxException ex) {
         System.out.println("Problem with the URI for endpoint: " + endpoint);
       }
     }
 
-    System.out.println("Total Skipped: " + skipped);
-    System.out.println("Endpoints: " + endpoints.size());
+    System.out.println("Total Endpoints Skipped: " + skipped);
+    System.out.println("Total Endpoints: " + endpoints.size());
 
     return endpoints;
   }
@@ -198,7 +193,7 @@ public class MainController {
       try {
         response = executeOnClient(httpRequest);
       } catch (IOException ex) {
-        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         System.err.println(String.format(errorMessage, "executing on client"));
         continue;
       }
@@ -208,7 +203,7 @@ public class MainController {
       try {
         EntityUtils.consume(response.getEntity());
       } catch (IOException ex) {
-        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         System.err.println(String.format(errorMessage, "consuming the entity"));
       }
 
@@ -243,7 +238,7 @@ public class MainController {
     try {
       printContent(response.getEntity().getContent());
     } catch (IOException ex) {
-      Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
       System.err.println(String.format(errorMessage, "printing content"));
     }
 
@@ -251,7 +246,15 @@ public class MainController {
     System.out.println();
   }
 
+  /**
+   * This is used to execute all requests with the same httpContext.
+   *
+   * @param request
+   * @return
+   * @throws IOException
+   */
   private HttpResponse executeOnClient(HttpRequestBase request) throws IOException {
+    System.out.println("Executing " + request.getURI());
     HttpResponse response = client.execute(request, httpContext);
     return response;
   }
