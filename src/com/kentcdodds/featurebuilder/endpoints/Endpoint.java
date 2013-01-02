@@ -1,7 +1,7 @@
-package com.kentcdodds.endpoints;
+package com.kentcdodds.featurebuilder.endpoints;
 
-import com.kentcdodds.controller.EndpointController;
-import com.kentcdodds.controller.Main;
+import com.kentcdodds.featurebuilder.controller.EndpointController;
+import com.kentcdodds.featurebuilder.controller.Main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

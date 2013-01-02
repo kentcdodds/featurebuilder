@@ -1,9 +1,12 @@
-package com.kentcdodds.controller;
+package com.kentcdodds.featurebuilder.controller;
 
 import au.com.bytecode.opencsv.CSVReader;
-import com.kentcdodds.endpoints.Endpoint;
+import com.kentcdodds.featurebuilder.endpoints.Endpoint;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -145,6 +148,7 @@ public class EndpointController {
   }
 
   public void setup() {
+    CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
     httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
   }
 

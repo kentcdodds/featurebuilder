@@ -1,4 +1,4 @@
-package com.kentcdodds.controller;
+package com.kentcdodds.featurebuilder.controller;
 
 /**
  *

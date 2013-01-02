@@ -1,4 +1,4 @@
-package com.kentcdodds.endpoints;
+package com.kentcdodds.featurebuilder.endpoints;
 
 import java.util.List;
 

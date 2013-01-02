@@ -1,6 +1,6 @@
-package com.kentcdodds.controller;
+package com.kentcdodds.featurebuilder.controller;
 
-import com.kentcdodds.endpoints.Endpoint;
+import com.kentcdodds.featurebuilder.endpoints.Endpoint;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -23,7 +23,7 @@ public class TemplateController {
   
   private static TemplateController instance;
 
-  private final String templateDirectory = "/com/kentcdodds/resources/";
+  private final String templateDirectory = "/com/kentcdodds/featurebuilder/resources/";
   private final String featureTemplateFilename = "feature_template.feature";
   private final File outputDirectory = new File(System.getProperty("user.home") + "/Desktop/Test Feature Output/");
   private Configuration cfg = new Configuration();
