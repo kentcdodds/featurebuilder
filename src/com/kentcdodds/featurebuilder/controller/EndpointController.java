@@ -29,7 +29,7 @@ public class EndpointController {
   /**
    * Setting the limit to less than 0 will effectively make no limit.
    */
-  public final int limit = 4, offset = 15;
+  public final int limit = 1, offset = 15;
 
   private EndpointController() {
   }

@@ -20,7 +20,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.cache.HeaderConstants;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.client.utils.URIBuilder;
@@ -165,6 +164,7 @@ public class HttpController {
   public HttpResponse executeRequestOnClientWithContext(HttpRequestBase request) throws IOException {
     System.out.println("Executing " + request.getURI());
     HttpResponse response = client.execute(request, httpContext);
+    System.out.println("Response code: " + response.getStatusLine().getStatusCode());
     return response;
   }
 }

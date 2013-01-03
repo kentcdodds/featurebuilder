@@ -30,7 +30,7 @@ public class Main {
   }
 
   public static void signin() throws Exception {
-    HttpController.getInstance().executeGetOnClient("/domoweb/auth/signin",
+    HttpController.getInstance().executeOnClient("POST", "/domoweb/auth/signin",
             new String[]{"username", domoUsername},
             new String[]{"password", domoPassword});
     System.out.println("Signin successful");
