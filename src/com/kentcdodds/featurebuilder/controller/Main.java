@@ -2,8 +2,11 @@ package com.kentcdodds.featurebuilder.controller;
 
 import com.kentcdodds.featurebuilder.endpoints.Endpoint;
 import com.kentcdodds.featurebuilder.endpoints.Feature;
+import com.kentcdodds.featurebuilder.endpoints.Scenario;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -49,13 +52,29 @@ public class Main {
   private static void processEndpoints() throws Exception {
     List<Endpoint> endpoints = EndpointController.getInstance().readEndpointsFromCSVFile(endpointsCSVLocation);
     EndpointController.getInstance().runEndpoints(endpoints);
-    
+
     List<Feature> features = createFeatures(endpoints);
     TemplateController.getInstance().generateEndpointFeatures(features);
+    printFeatures(features);
   }
-  
+
   private static List<Feature> createFeatures(List<Endpoint> endpoints) {
-    throw new UnsupportedOperationException("This needs to create features out of the endpoints");
+    List<Feature> features = new ArrayList<Feature>();
+    for (Endpoint endpoint : endpoints) {
+      if (endpoint.getResponse() != null) { //TODO: This is for testing only. Remove this in prod.
+        Feature feature = new Feature("Feature " + features.size(), Arrays.asList(new Scenario("Scenario " + features.size(), endpoint)), "");
+        features.add(feature);
+      }
+    }
+    return features;
+  }
+
+  private static void printFeatures(List<Feature> features) {
+    for (Feature feature : features) {
+      System.out.println("---------------------------------------------");
+      System.out.println(feature.getFeatureText());
+      System.out.println("---------------------------------------------");
+    }
   }
 
   private static void exit() throws Exception {

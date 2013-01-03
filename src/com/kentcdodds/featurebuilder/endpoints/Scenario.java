@@ -40,7 +40,7 @@ public class Scenario {
     root.put("name", name);
     root.put("endpoint_path", endpoint.getPath());
     root.put("endpoint_method", endpoint.getRequest().getMethod());
-//    root.put("response_code", endpoint.getResponse().getStatusLine().getStatusCode());
+    root.put("response_code", endpoint.getResponse().getStatusLine().getStatusCode());
     return root;
   }
 
