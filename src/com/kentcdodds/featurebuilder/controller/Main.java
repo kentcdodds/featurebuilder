@@ -1,7 +1,10 @@
 package com.kentcdodds.featurebuilder.controller;
 
 import com.kentcdodds.featurebuilder.endpoints.Endpoint;
+import com.kentcdodds.featurebuilder.endpoints.Feature;
+import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -26,53 +29,74 @@ public class Main {
     processEndpoints();
     exit();
   }
-  
+
   private static void startup() throws Exception {
-    EndpointController.getInstance().setup();
-    boolean succeededSigningIn = signin();
-    if (!succeededSigningIn)
-      throw new Exception("Failed logging in");
+    try {
+      signin();
+    } catch (Exception ex) {
+      throw new Exception("Failed signing in.", ex);
+    }
   }
-  
-  public static boolean signin() throws Exception {
+
+  public static void signin() throws Exception {
     URI uri = EndpointController.getInstance().buildURI("/domoweb/auth/signin",
             new String[]{"username", domoUsername},
             new String[]{"password", domoPassword});
-    HttpGet httpGet = new HttpGet(uri);
-    HttpResponse response = EndpointController.getInstance().executeOnClient(httpGet);
-    
-    checkStatusOk(response);
-    
-    HttpEntity entity = response.getEntity();
-    EntityUtils.consume(entity);
-    
-    System.out.println("Signed In");
-    return true;
+    executeGet(uri);
+    System.out.println("Signin successful");
   }
-  
-  private static void checkStatusOk(HttpResponse response) throws Exception {
-    int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != 200) {
-      throw new Exception("Failed signing in (status code: " + statusCode + ")");
-    }
-  }
-  
+
   private static void processEndpoints() throws Exception {
-    java.util.List<Endpoint> endpoints = EndpointController.getInstance().readEndpointsFromCSVFile(endpointsCSVLocation);
+    List<Endpoint> endpoints = EndpointController.getInstance().readEndpointsFromCSVFile(endpointsCSVLocation);
     EndpointController.getInstance().runEndpoints(endpoints);
-    TemplateController.getInstance().generateEndpointFeatures(endpoints);
+    
+    List<Feature> features = createFeatures(endpoints);
+    TemplateController.getInstance().generateEndpointFeatures(features);
   }
   
+  private static List<Feature> createFeatures(List<Endpoint> endpoints) {
+    throw new UnsupportedOperationException("This needs to create features out of the endpoints");
+  }
+
   private static void exit() throws Exception {
-    signout();
+    try {
+      signout();
+    } catch (Exception ex) {
+      throw new Exception("Failed signing out", ex);
+    }
   }
 
   public static void signout() throws Exception {
     URI uri = EndpointController.getInstance().buildURI("/domoweb/auth/signout");
-    HttpGet httpGet = new HttpGet(uri);
-    HttpEntity entity = EndpointController.getInstance().executeOnClient(httpGet).getEntity();
-    EntityUtils.consume(entity);
+    executeGet(uri);
     System.out.println("Signed Out");
   }
 
+  private static void executeGet(URI uri) throws Exception {
+    HttpGet httpGet = new HttpGet(uri);
+    HttpResponse response;
+    try {
+      response = EndpointController.getInstance().executeOnClient(httpGet);
+      checkStatusOk(response);
+      consumeResponse(response);
+    } catch (Exception ex) {
+      throw new Exception("Error attempting to execute get for URI: " + uri, ex);
+    }
+  }
+
+  private static void checkStatusOk(HttpResponse response) throws Exception {
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != 200) {
+      throw new Exception("Status code not OK (200). Status code: " + statusCode);
+    }
+  }
+
+  private static void consumeResponse(HttpResponse response) throws Exception {
+    HttpEntity entity = response.getEntity();
+    try {
+      EntityUtils.consume(entity);
+    } catch (IOException ex) {
+      throw new Exception("Failed consuming response", ex);
+    }
+  }
 }

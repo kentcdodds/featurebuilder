@@ -1,15 +1,10 @@
 ${intro_comments}
 
-<#list tags as tag>tag <#list>
-Feature: {$feature_name}
+${global_tag} <#list tags as tag>${tag} </#list>
+Feature: {$name}
 
-    Scenario: {$scenario_name}
-        Given I authenticate with my '${r"#{Variables.enduserLogin}"}' and '${r"#{Variables.enduserPassword}"}'
-        Then I test the endpoint using:
-        """
-            ${r"{"}
-                :endPointName => ${path},
-                :method => '${method}',
-                :responseType => ${response_code}
-            ${r"}"}
-        """
+<#list scenarios as scenario>
+
+    ${scenario}
+
+</#list>

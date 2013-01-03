@@ -52,6 +52,7 @@ public class EndpointController {
   public final int limit = 4, offset = 15;
 
   private EndpointController() {
+    setup();
   }
 
   public static EndpointController getInstance() {
@@ -59,6 +60,11 @@ public class EndpointController {
       instance = new EndpointController();
     }
     return instance;
+  }
+
+  private void setup() {
+    CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+    httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
   }
 
   /**
@@ -145,11 +151,6 @@ public class EndpointController {
     } else {
       statusCodeCount.put(statusCode, count + 1);
     }
-  }
-
-  public void setup() {
-    CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-    httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
   }
 
   public URI buildURI(String path, String[]... params) throws URISyntaxException {
