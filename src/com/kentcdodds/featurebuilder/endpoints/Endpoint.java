@@ -45,7 +45,7 @@ public class Endpoint {
     reader.close();
     return sb.toString();
   }
-  
+
   private void consumeResponseEntity() throws IOException {
     EntityUtils.consume(response.getEntity());
   }
@@ -94,6 +94,7 @@ public class Endpoint {
 
   /**
    * This is null until runRequestSetVariablesAndConsumeEntity is called.
+   *
    * @return the responseContent
    */
   public String getResponseContent() {
@@ -110,14 +111,13 @@ public class Endpoint {
   @Override
   public String toString() {
     return "Path: " + path + Main.newline
-            + "Request:" + Main.newline + getRequestAsString().replace(Main.newline, Main.newline + "\t")
-            + "Response:" + Main.newline + getResponseAsString().replace(Main.newline, Main.newline + "\t")
-            ;
+            + "Request:" + Main.newline + "\t" + getRequestAsString().replace(Main.newline, Main.newline + "\t") + Main.newline
+            + "Response:" + Main.newline + "\t" + getResponseAsString().replace(Main.newline, Main.newline + "\t");
   }
 
   private String getResponseAsString() {
     if (response == null) {
-      return "null response";
+      return "[null response]";
     }
     HttpEntity entity = response.getEntity();
     StatusLine statusLine = response.getStatusLine();
@@ -126,27 +126,26 @@ public class Endpoint {
             + "Content Type: " + entity.getContentType().getName() + ": " + entity.getContentType().getValue() + Main.newline
             + "Content Length: " + entity.getContentLength() + Main.newline
             + "Headers: " + Main.newline
-            + getHeadersAsString(response.getAllHeaders()).replace(Main.newline, Main.newline + "\t");
+            + "\t" + getHeadersAsString(response.getAllHeaders()).replace(Main.newline, Main.newline + "\t");
   }
 
   private String getRequestAsString() {
     if (request == null) {
-      return "null request";
+      return "[null request]";
     }
     return "URI: " + request.getURI() + Main.newline
             + "Method: " + request.getRequestLine().getMethod() + Main.newline
             + "Headers: " + Main.newline
-            + getHeadersAsString(request.getAllHeaders()).replace(Main.newline, Main.newline + "\t");
+            + "\t" + getHeadersAsString(request.getAllHeaders()).replace(Main.newline, Main.newline + "\t");
   }
 
   public String getHeadersAsString(Header... headers) {
     StringBuilder sb = new StringBuilder();
     for (Header header : headers) {
-      sb.append(header.getName()).append(": ").append(header.getValue());
-      for (HeaderElement headerElement : header.getElements()) {
-        sb.append("\t").append(headerElement.getName()).append(": ").append(headerElement.getValue());
-      }
+      sb.append(header.getName()).append(": ").append(header.getValue()).append(Main.newline);
     }
+    if (headers.length == 0)
+      sb.append("[no headers]");
     return sb.toString();
   }
 }

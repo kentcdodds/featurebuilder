@@ -24,9 +24,6 @@ public class Main {
   private static final String domoUsername = "qa6.tester@domosoftware.net";
   private static final String domoPassword = "enduserPassword";
 
-  /**
-   * @param args the command line arguments
-   */
   public static void main(String[] args) throws Exception {
     startup();
     processEndpoints();
@@ -55,7 +52,8 @@ public class Main {
 
     List<Feature> features = createFeatures(endpoints);
     TemplateController.getInstance().generateEndpointFeatures(features);
-    printFeatures(features);
+//    printFeatures(features);
+    printEndpoints(endpoints);
   }
 
   private static List<Feature> createFeatures(List<Endpoint> endpoints) {
@@ -71,12 +69,20 @@ public class Main {
 
   private static void printFeatures(List<Feature> features) {
     for (Feature feature : features) {
-      System.out.println("---------------------------------------------");
+      System.out.println("---------------------------------------------" + newline);
       System.out.println(feature.getFeatureText());
-      System.out.println("---------------------------------------------");
+      System.out.println(newline + newline);
     }
   }
 
+  private static void printEndpoints(List<Endpoint> endpoints) {
+    for (Endpoint endpoint : endpoints) {
+      System.out.println("---------------------------------------------" + newline);
+      System.out.println(endpoint);
+      System.out.println(newline + newline);
+    }
+  }
+  
   private static void exit() throws Exception {
     try {
       signout();
@@ -88,7 +94,7 @@ public class Main {
   public static void signout() throws Exception {
     URI uri = EndpointController.getInstance().buildURI("/domoweb/auth/signout");
     executeGet(uri);
-    System.out.println("Signed Out");
+    System.out.println("Sign Out successful");
   }
 
   private static void executeGet(URI uri) throws Exception {
