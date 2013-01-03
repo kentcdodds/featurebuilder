@@ -1,6 +1,7 @@
 package com.kentcdodds.featurebuilder.endpoints;
 
 import com.kentcdodds.featurebuilder.controller.EndpointController;
+import com.kentcdodds.featurebuilder.controller.HttpController;
 import com.kentcdodds.featurebuilder.controller.Main;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class Endpoint {
   }
 
   private HttpResponse runRequest() throws IOException {
-    return EndpointController.getInstance().executeOnClient(request);
+    return HttpController.getInstance().executeRequestOnClientWithContext(request);
   }
 
   private String generateResponseContent() throws IOException {
