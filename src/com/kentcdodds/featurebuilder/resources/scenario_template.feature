@@ -10,5 +10,7 @@
         """<#if response_content??>
         And I validate the endpoint using:
         """
-            ${response_content}
+
+${response_content}
+
         """</#if>

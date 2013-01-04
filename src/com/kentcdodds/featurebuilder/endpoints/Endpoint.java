@@ -7,16 +7,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
-import net.sf.json.JSONString;
-import net.sf.json.util.JSONUtils;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Endpoint {
 
@@ -31,7 +32,7 @@ public class Endpoint {
   public void processEndpoint() throws IOException {
     runRequest();
     generateResponseContent();
-//    formatResponseContentIfIsJSON();
+    formatResponseContentIfIsJSON();
     consumeResponseEntity();
   }
 
@@ -53,8 +54,26 @@ public class Endpoint {
     EntityUtils.consume(response.getEntity());
   }
 
-  public boolean responseContentIsJSON() {
-    return JSONUtils.mayBeJSON(responseContent);
+  /**
+   * @return a JSONObject representing the responseContent. Returns null if responseContent is not a valid JSONObject
+   */
+  private JSONObject getResponseContentAsJSONObject() {
+    try {
+      return new JSONObject(responseContent);
+    } catch (JSONException ex) {
+      return null;
+    }
+  }
+
+  /**
+   * @return a JSONArray representing the responseContent. Returns null if responseContent is not a valid JSONArray
+   */
+  private JSONArray getResponseContentAsJSONArray() {
+    try {
+      return new JSONArray(responseContent);
+    } catch (JSONException ex) {
+      return null;
+    }
   }
 
   public String getRequestMethod() {
@@ -70,14 +89,24 @@ public class Endpoint {
   }
 
   public String getRequestPath() {
-    return request.getURI().toString();
+    return request.getURI().getPath();
   }
 
   public void formatResponseContentIfIsJSON() {
-    if (responseContentIsJSON()) {
-      JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(responseContent);
-      int indentSpaces = 2;
-      responseContent = jsonObject.toString(indentSpaces);
+    int indentFactor = 2;
+    JSONObject jsonObject = getResponseContentAsJSONObject();
+    JSONArray jsonArray;
+    try {
+      if (jsonObject == null) {
+        jsonArray = getResponseContentAsJSONArray();
+        if (jsonArray == null) {
+          return;
+        }
+        responseContent = jsonArray.toString(indentFactor);
+      } else
+        responseContent = jsonObject.toString(indentFactor);
+    } catch (JSONException ex) {
+      Logger.getLogger(Endpoint.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
