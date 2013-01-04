@@ -3,6 +3,7 @@ package com.kentcdodds.featurebuilder.controller;
 import com.kentcdodds.featurebuilder.endpoints.Endpoint;
 import com.kentcdodds.featurebuilder.endpoints.Feature;
 import java.util.List;
+import org.apache.http.HttpResponse;
 
 /**
  *
@@ -30,9 +31,10 @@ public class Main {
   }
 
   public static void signin() throws Exception {
-    HttpController.getInstance().executeOnClient("POST", "/domoweb/auth/signin",
+    HttpResponse response = HttpController.getInstance().executeOnClient("POST", "/domoweb/auth/signin",
             new String[]{"username", domoUsername},
             new String[]{"password", domoPassword});
+    HttpController.getInstance().consumeResponse(response);
     System.out.println("Signin successful");
   }
 
@@ -43,8 +45,8 @@ public class Main {
     List<Feature> features = FeatureController.getInstance().createFeatures(endpoints);
     TemplateController.getInstance().generateEndpointFeatures(features);
     FeatureController.getInstance().printFeatures(features);
- }
-  
+  }
+
   private static void exit() throws Exception {
     try {
       signout();
@@ -54,8 +56,8 @@ public class Main {
   }
 
   public static void signout() throws Exception {
-    HttpController.getInstance().executeGetOnClient("/domoweb/auth/signout");
+    HttpResponse response = HttpController.getInstance().executeGetOnClient("/domoweb/auth/signout");
+    HttpController.getInstance().consumeResponse(response);
     System.out.println("Sign Out successful");
   }
-
 }
