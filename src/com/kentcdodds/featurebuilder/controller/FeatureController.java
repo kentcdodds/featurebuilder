@@ -28,7 +28,7 @@ public class FeatureController {
   public List<Feature> createFeatures(List<Endpoint> endpoints) {
     List<Feature> features = new ArrayList<Feature>();
     for (Endpoint endpoint : endpoints) {
-      if (endpoint.getResponse() != null) { //TODO: This is for testing only. Remove this in prod.
+      if (endpoint.isProcessed()) { //TODO: This is for testing only. Remove this in prod.
         Feature feature = new Feature("Feature " + features.size(), Arrays.asList(new Scenario("Scenario " + features.size(), endpoint)), "");
         features.add(feature);
       }

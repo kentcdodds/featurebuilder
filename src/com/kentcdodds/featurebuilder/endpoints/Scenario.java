@@ -38,9 +38,7 @@ public class Scenario {
   private Map getTemplateMap() {
     Map root = new HashMap();    
     root.put("name", name);
-    root.put("endpoint_path", endpoint.getPath());
-    root.put("endpoint_method", endpoint.getRequest().getMethod());
-    root.put("response_code", endpoint.getResponse().getStatusLine().getStatusCode());
+    root.putAll(endpoint.getTemplateMap());
     return root;
   }
 

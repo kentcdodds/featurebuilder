@@ -72,8 +72,7 @@ public class EndpointController {
       };
       try {
         requestBase.setURI(HttpController.getInstance().buildURI(path));
-
-        endpoints.add(new Endpoint(path, requestBase));
+        endpoints.add(new Endpoint(requestBase));
       } catch (URISyntaxException ex) {
         System.out.println("Problem with the URI for endpoint: " + path);
         System.out.println(ex.getMessage());
@@ -114,11 +113,11 @@ public class EndpointController {
   }
 
   private void runEndpoint(Endpoint endpoint) throws IOException {
-    endpoint.runRequestSetVariablesAndConsumeEntity();
+    endpoint.processEndpoint();
   }
 
   private void addResponseCodeToCount(Endpoint endpoint, Map<Integer, Integer> statusCodeCount) {
-    int statusCode = endpoint.getResponse().getStatusLine().getStatusCode();
+    int statusCode = endpoint.getResponseCode();
     Integer count = statusCodeCount.get(statusCode);
     if (count == null) {
       statusCodeCount.put(statusCode, 1);

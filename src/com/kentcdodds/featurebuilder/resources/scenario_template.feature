@@ -1,10 +1,14 @@
     Scenario: ${name}
-        Given I authenticate with my '${r"#{Variables.enduserLogin}"}' and '${r"#{Variables.enduserPassword}"}'
+        Given I authenticate to play
         Then I test the endpoint using:
         """
             ${r"{"}
                 :endPointName => ${endpoint_path},
-                :method => '${endpoint_method}',
-                :responseType => ${response_code!"N/A"}
+                :method => '${endpoint_method}'<#if response_code??>,
+                :responseType => ${response_code}</#if>
             ${r"}"}
+        """<#if response_content??>
+        And I validate the endpoint using:
         """
+            ${response_content}
+        """</#if>

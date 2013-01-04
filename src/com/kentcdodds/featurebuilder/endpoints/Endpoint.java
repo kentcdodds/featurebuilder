@@ -5,6 +5,12 @@ import com.kentcdodds.featurebuilder.controller.Main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+import net.sf.json.JSONString;
+import net.sf.json.util.JSONUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,110 +20,88 @@ import org.apache.http.util.EntityUtils;
 
 public class Endpoint {
 
-  private String path;
   private HttpRequestBase request;
   private HttpResponse response;
   private String responseContent;
 
-  public Endpoint(String path, HttpRequestBase request) {
-    this.path = path;
+  public Endpoint(HttpRequestBase request) {
     this.request = request;
   }
 
-  public void runRequestSetVariablesAndConsumeEntity() throws IOException {
-    response = runRequest();
-    responseContent = generateResponseContent();
+  public void processEndpoint() throws IOException {
+    runRequest();
+    generateResponseContent();
+//    formatResponseContentIfIsJSON();
     consumeResponseEntity();
   }
 
-  private HttpResponse runRequest() throws IOException {
-    return HttpController.getInstance().executeRequestOnClientWithContext(request);
+  private void runRequest() throws IOException {
+    response = HttpController.getInstance().executeRequestOnClientWithContext(request);
   }
 
-  private String generateResponseContent() throws IOException {
+  private void generateResponseContent() throws IOException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
     String readLine;
     StringBuilder sb = new StringBuilder();
-    while ((readLine = reader.readLine()) != null) {
+    while ((readLine = reader.readLine()) != null)
       sb.append(readLine);
-    }
     reader.close();
-    return sb.toString();
+    responseContent = sb.toString();
   }
 
   private void consumeResponseEntity() throws IOException {
     EntityUtils.consume(response.getEntity());
   }
 
-  /**
-   * @return the path
-   */
-  public String getPath() {
-    return path;
+  public boolean responseContentIsJSON() {
+    return JSONUtils.mayBeJSON(responseContent);
   }
 
-  /**
-   * @param path the path to set
-   */
-  public void setPath(String path) {
-    this.path = path;
+  public String getRequestMethod() {
+    return request.getMethod();
   }
 
-  /**
-   * @return the request
-   */
-  public HttpRequestBase getRequest() {
-    return request;
+  public int getResponseCode() {
+    return response.getStatusLine().getStatusCode();
   }
 
-  /**
-   * @param request the request to set
-   */
-  public void setRequest(HttpRequestBase request) {
-    this.request = request;
+  public boolean isProcessed() {
+    return response != null;
   }
 
-  /**
-   * @return the response
-   */
-  public HttpResponse getResponse() {
-    return response;
+  public String getRequestPath() {
+    return request.getURI().toString();
   }
 
-  /**
-   * @param response the response to set
-   */
-  public void setResponse(HttpResponse response) {
-    this.response = response;
+  public void formatResponseContentIfIsJSON() {
+    if (responseContentIsJSON()) {
+      JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(responseContent);
+      int indentSpaces = 2;
+      responseContent = jsonObject.toString(indentSpaces);
+    }
   }
 
-  /**
-   * This is null until runRequestSetVariablesAndConsumeEntity is called.
-   *
-   * @return the responseContent
-   */
-  public String getResponseContent() {
-    return responseContent;
-  }
-
-  /**
-   * @param responseContent the responseContent to set
-   */
-  public void setResponseContent(String responseContent) {
-    this.responseContent = responseContent;
+  public Map getTemplateMap() {
+    Map root = new HashMap();
+    root.put("endpoint_path", getRequestPath());
+    root.put("endpoint_method", getRequestMethod());
+    if (isProcessed()) {
+      root.put("response_code", getResponseCode());
+      root.put("response_content", responseContent);
+    }
+    return root;
   }
 
   @Override
   public String toString() {
-    return "Path: " + path + Main.newline
+    return "Path: " + getRequestPath() + Main.newline
             + "Request:" + Main.newline + "\t" + getRequestAsString().replace(Main.newline, Main.newline + "\t") + Main.newline
             + "Response:" + Main.newline + "\t" + getResponseAsString().replace(Main.newline, Main.newline + "\t");
   }
 
   private String getResponseAsString() {
-    if (response == null) {
+    if (response == null)
       return "[null response]";
-    }
     HttpEntity entity = response.getEntity();
     StatusLine statusLine = response.getStatusLine();
     return "Code: " + statusLine.getStatusCode() + Main.newline
@@ -129,9 +113,8 @@ public class Endpoint {
   }
 
   private String getRequestAsString() {
-    if (request == null) {
+    if (request == null)
       return "[null request]";
-    }
     return "URI: " + request.getURI() + Main.newline
             + "Method: " + request.getRequestLine().getMethod() + Main.newline
             + "Headers: " + Main.newline
@@ -140,9 +123,8 @@ public class Endpoint {
 
   public String getHeadersAsString(Header... headers) {
     StringBuilder sb = new StringBuilder();
-    for (Header header : headers) {
+    for (Header header : headers)
       sb.append(header.getName()).append(": ").append(header.getValue()).append(Main.newline);
-    }
     if (headers.length == 0)
       sb.append("[no headers]");
     return sb.toString();
