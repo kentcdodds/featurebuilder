@@ -21,7 +21,7 @@ public class EndpointController {
           + "POST"
           + "DELETE"
           + "GET"
-          + "";
+          + ""; //Just comment out the line that you don't want to test.
   /**
    * Setting the limit to less than 0 will effectively make no limit.
    */

@@ -27,7 +27,7 @@ public class Main {
   }
 
   public static void signin() throws Exception {
-    HttpResponse response = HttpController.getInstance().executeOnClient("POST", "/domoweb/auth/signin",
+    HttpResponse response = HttpController.getInstance().executePostOnClient("/domoweb/auth/signin",
             new String[]{"username", domoUsername},
             new String[]{"password", domoPassword});
     HttpController.getInstance().consumeResponse(response);

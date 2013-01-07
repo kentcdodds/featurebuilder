@@ -43,6 +43,10 @@ public class HttpController {
   private final String dostamales = "192.168.56.101";
   public final String HOST = dostamales;
   public final String CHARSET = "UTF-8";
+  public static final String METHOD_GET = HeaderConstants.GET_METHOD;
+  public static final String METHOD_PUT = HeaderConstants.PUT_METHOD;
+  public static final String METHOD_POST = "POST";
+  public static final String METHOD_DELETE = HeaderConstants.DELETE_METHOD;
 
   private HttpController() {
     setup();
@@ -102,15 +106,19 @@ public class HttpController {
   }
 
   public HttpResponse executeGetOnClient(String path, String[]... params) throws Exception {
-    return executeOnClient(HeaderConstants.GET_METHOD, path, params);
+    return executeOnClient(METHOD_GET, path, params);
   }
 
   public HttpResponse executePutOnClient(String path, String[]... params) throws Exception {
-    return executeOnClient(HeaderConstants.PUT_METHOD, path, params);
+    return executeOnClient(METHOD_PUT, path, params);
   }
 
   public HttpResponse executeDeleteOnClient(String path, String[]... params) throws Exception {
-    return executeOnClient(HeaderConstants.DELETE_METHOD, path, params);
+    return executeOnClient(METHOD_DELETE, path, params);
+  }
+
+  public HttpResponse executePostOnClient(String path, String[]... params) throws Exception {
+    return executeOnClient(METHOD_POST, path, params);
   }
 
   public HttpResponse executeOnClient(final String method, String endpoint, String[]... params) throws IOException, URISyntaxException {
