@@ -55,38 +55,24 @@ public class TemplateController {
   }
 
   public Template getFeatureTemplate() throws IOException {
-    return getCfg().getTemplate(FEATURE_TEMPLATE_FILENAME);
+    return cfg.getTemplate(FEATURE_TEMPLATE_FILENAME);
   }
 
   public Template getScenarioTemplate() throws IOException {
-    return getCfg().getTemplate(SCENARIO_TEMPLATE_FILENAME);
+    return cfg.getTemplate(SCENARIO_TEMPLATE_FILENAME);
   }
   
   private void setup() throws URISyntaxException, IOException, TemplateModelException {
     if (!outputDirectory.exists()) {
-      getOutputDirectory().mkdir();
+      outputDirectory.mkdir();
     }
-    getCfg().setDirectoryForTemplateLoading(new File(TemplateController.class.getResource(TEMPLATE_DIRECTORY).toURI()));
-    getCfg().setObjectWrapper(new DefaultObjectWrapper());
-    getCfg().setSharedVariable("intro_comments",
+    cfg.setDirectoryForTemplateLoading(new File(TemplateController.class.getResource(TEMPLATE_DIRECTORY).toURI()));
+    cfg.setObjectWrapper(new DefaultObjectWrapper());
+    cfg.setSharedVariable("intro_comments",
             "# Authors:" + Main.newline
             + "#   Kent Dodds (kent.dodds@domo.com)" + Main.newline
             + "#   Mack Cope (mack.cope@domo.com)" + Main.newline
             + "# Manager: Doug Reid (doug.reid@domo.com)");
-    getCfg().setSharedVariable("global_tag", "@featureBuilder");
-  }
-
-  /**
-   * @return the outputDirectory
-   */
-  public File getOutputDirectory() {
-    return outputDirectory;
-  }
-
-  /**
-   * @return the cfg
-   */
-  public Configuration getCfg() {
-    return cfg;
+    cfg.setSharedVariable("global_tag", "@featureBuilder");
   }
 }
