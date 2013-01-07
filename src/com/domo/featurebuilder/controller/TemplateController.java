@@ -35,14 +35,13 @@ public class TemplateController {
   }
 
   public static TemplateController getInstance() {
-    if (instance == null) {
+    if (instance == null)
       instance = new TemplateController();
-    }
     return instance;
   }
 
   public void generateEndpointFeatures(List<Feature> features) {
-    for (Feature feature : features) {
+    for (Feature feature : features)
       try {
         Template template = getFeatureTemplate();
         feature.generateFeatureText(template);
@@ -51,7 +50,6 @@ public class TemplateController {
       } catch (TemplateException ex) {
         Logger.getLogger(TemplateController.class.getName()).log(Level.SEVERE, null, ex);
       }
-    }
   }
 
   public Template getFeatureTemplate() throws IOException {
@@ -61,11 +59,10 @@ public class TemplateController {
   public Template getScenarioTemplate() throws IOException {
     return cfg.getTemplate(SCENARIO_TEMPLATE_FILENAME);
   }
-  
+
   private void setup() throws URISyntaxException, IOException, TemplateModelException {
-    if (!outputDirectory.exists()) {
+    if (!outputDirectory.exists())
       outputDirectory.mkdir();
-    }
     cfg.setDirectoryForTemplateLoading(new File(TemplateController.class.getResource(TEMPLATE_DIRECTORY).toURI()));
     cfg.setObjectWrapper(new DefaultObjectWrapper());
     cfg.setSharedVariable("intro_comments",

@@ -13,22 +13,20 @@ public class FeatureController {
 
   private FeatureController() {
   }
-  
+
   public static FeatureController getInstance() {
-    if (instance == null) {
+    if (instance == null)
       instance = new FeatureController();
-    }
     return instance;
   }
-  
+
   public List<Feature> createFeatures(List<Endpoint> endpoints) {
     List<Feature> features = new ArrayList<Feature>();
-    for (Endpoint endpoint : endpoints) {
+    for (Endpoint endpoint : endpoints)
       if (endpoint.isProcessed()) { //TODO: This is for testing only. Remove this in prod.
         Feature feature = new Feature("Feature " + features.size(), Arrays.asList(new Scenario("Scenario " + features.size(), endpoint)), "");
         features.add(feature);
       }
-    }
     return features;
   }
 
@@ -39,6 +37,4 @@ public class FeatureController {
       System.out.println(Main.newline + Main.newline);
     }
   }
-  
-  
 }

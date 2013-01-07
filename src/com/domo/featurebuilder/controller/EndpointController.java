@@ -31,9 +31,8 @@ public class EndpointController {
   }
 
   public static EndpointController getInstance() {
-    if (instance == null) {
+    if (instance == null)
       instance = new EndpointController();
-    }
     return instance;
   }
 
@@ -93,9 +92,8 @@ public class EndpointController {
   public void runEndpoints(List<Endpoint> endpoints) {
     Map<Integer, Integer> statusCodeCount = new HashMap<Integer, Integer>();
     for (int i = 0; i < endpoints.size(); i++) {
-      if (limit > 0 && (i <= offset || i > (offset + limit))) {
+      if (limit > 0 && (i <= offset || i > (offset + limit)))
         continue;
-      }
       Endpoint endpoint = endpoints.get(i);
       try {
         runEndpoint(endpoint);
@@ -115,11 +113,10 @@ public class EndpointController {
   private void addResponseCodeToCount(Endpoint endpoint, Map<Integer, Integer> statusCodeCount) {
     int statusCode = endpoint.getResponseCode();
     Integer count = statusCodeCount.get(statusCode);
-    if (count == null) {
+    if (count == null)
       statusCodeCount.put(statusCode, 1);
-    } else {
+    else
       statusCodeCount.put(statusCode, count + 1);
-    }
   }
 
   /**

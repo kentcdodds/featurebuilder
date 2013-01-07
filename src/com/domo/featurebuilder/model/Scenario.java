@@ -20,18 +20,18 @@ public class Scenario {
 
   public String getTemplateInfo() throws IOException, TemplateException {
     StringWriter out = new StringWriter();
-    
+
     Template scenarioTemplate = TemplateController.getInstance().getScenarioTemplate();
     Map rootMap = getTemplateMap();
     scenarioTemplate.process(rootMap, out);
-    
+
     String output = new String(out.getBuffer());
     out.close();
     return output;
   }
-  
+
   private Map getTemplateMap() {
-    Map root = new HashMap();    
+    Map root = new HashMap();
     root.put("name", name);
     root.putAll(endpoint.getTemplateMap());
     return root;
@@ -64,5 +64,4 @@ public class Scenario {
   public void setEndpoint(Endpoint endpoint) {
     this.endpoint = endpoint;
   }
-
 }

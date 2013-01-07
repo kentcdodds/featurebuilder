@@ -28,29 +28,29 @@ public class Feature {
     this.scenarios = scenarios;
     this.tags = Arrays.asList(tags);
   }
-  
+
   public void generateFeatureText(Template template) throws TemplateException, IOException {
     StringWriter out = new StringWriter();
     template.process(getTemplateMap(), out);
     featureText = new String(out.getBuffer());
     out.close();
   }
-  
+
   private Map getTemplateMap() throws IOException, TemplateException {
-    Map root = new HashMap();    
+    Map root = new HashMap();
     root.put("name", name);
     root.put("tags", tags);
     root.put("scenarios", getScenarioInfo());
     return root;
   }
-  
+
   private List<String> getScenarioInfo() throws IOException, TemplateException {
     List<String> scenarioInfo = new ArrayList<String>(scenarios.size());
     for (Scenario scenario : scenarios)
       scenarioInfo.add(scenario.getTemplateInfo());
     return scenarioInfo;
   }
-  
+
   /**
    * @return the name
    */

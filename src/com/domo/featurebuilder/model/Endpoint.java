@@ -99,9 +99,8 @@ public class Endpoint {
     try {
       if (jsonObject == null) {
         jsonArray = getResponseContentAsJSONArray();
-        if (jsonArray == null) {
+        if (jsonArray == null)
           return;
-        }
         responseContent = jsonArray.toString(indentFactor);
       } else
         responseContent = jsonObject.toString(indentFactor);
