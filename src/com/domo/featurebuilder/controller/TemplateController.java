@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class TemplateController {
 
   private static TemplateController instance;
-  public final String TEMPLATE_DIRECTORY = "/com/kentcdodds/featurebuilder/resources/";
+  public final String TEMPLATE_DIRECTORY = "/com/domo/featurebuilder/resources/templates";
   public final String FEATURE_TEMPLATE_FILENAME = "feature_template.feature";
   public final String SCENARIO_TEMPLATE_FILENAME = "scenario_template.feature";
   private final File outputDirectory = new File(System.getProperty("user.home") + "/Desktop/Test Feature Output/");
