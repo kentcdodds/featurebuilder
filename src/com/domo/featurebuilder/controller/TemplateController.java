@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 public class TemplateController {
 
   private static TemplateController instance;
-  public final String TEMPLATE_DIRECTORY = "/com/domo/featurebuilder/resources/templates";
-  public final String FEATURE_TEMPLATE_FILENAME = "feature_template.feature";
-  public final String SCENARIO_TEMPLATE_FILENAME = "scenario_template.feature";
+  private final String TEMPLATE_DIRECTORY = "/com/domo/featurebuilder/resources/templates";
+  private final String FEATURE_TEMPLATE_FILENAME = "feature_template.feature";
+  private final String SCENARIO_TEMPLATE_FILENAME = "scenario_template.feature";
   private final File outputDirectory = new File(System.getProperty("user.home") + "/Desktop/Test Feature Output/");
   private Configuration cfg = new Configuration();
 
@@ -69,9 +69,11 @@ public class TemplateController {
     getCfg().setDirectoryForTemplateLoading(new File(TemplateController.class.getResource(TEMPLATE_DIRECTORY).toURI()));
     getCfg().setObjectWrapper(new DefaultObjectWrapper());
     getCfg().setSharedVariable("intro_comments",
-            "# Author: Kent Dodds (kent.dodds@domo.com)" + Main.newline
+            "# Authors:" + Main.newline
+            + "#   Kent Dodds (kent.dodds@domo.com)" + Main.newline
+            + "#   Mack Cope (mack.cope@domo.com)" + Main.newline
             + "# Manager: Doug Reid (doug.reid@domo.com)");
-    getCfg().setSharedVariable("global_tag", "@kentsTest");
+    getCfg().setSharedVariable("global_tag", "@featureBuilder");
   }
 
   /**
