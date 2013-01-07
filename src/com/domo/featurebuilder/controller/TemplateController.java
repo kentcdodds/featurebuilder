@@ -13,10 +13,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author kentdodds
- */
 public class TemplateController {
 
   private static TemplateController instance;

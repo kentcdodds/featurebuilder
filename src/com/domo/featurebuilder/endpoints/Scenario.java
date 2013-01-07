@@ -4,15 +4,10 @@ import com.domo.featurebuilder.controller.TemplateController;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author kentdodds
- */
 public class Scenario {
 
   private String name;

@@ -33,10 +33,6 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-/**
- *
- * @author kentdodds
- */
 public class HttpController {
 
   private static HttpController instance;

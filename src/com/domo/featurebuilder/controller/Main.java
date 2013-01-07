@@ -5,10 +5,6 @@ import com.domo.featurebuilder.endpoints.Feature;
 import java.util.List;
 import org.apache.http.HttpResponse;
 
-/**
- *
- * @author kentdodds
- */
 public class Main {
 
   public static final String newline = System.getProperty("line.separator");

@@ -13,10 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.client.methods.HttpRequestBase;
 
-/**
- *
- * @author kentdodds
- */
 public class EndpointController {
 
   private static EndpointController instance;

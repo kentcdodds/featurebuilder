@@ -8,10 +8,6 @@ import java.util.Arrays;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 
-/**
- *
- * @author kentdodds
- */
 public class Tester {
 
   public static void main(String[] args) throws Throwable {

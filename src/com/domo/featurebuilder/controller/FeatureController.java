@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- *
- * @author kentdodds
- */
 public class FeatureController {
 
   private static FeatureController instance;
