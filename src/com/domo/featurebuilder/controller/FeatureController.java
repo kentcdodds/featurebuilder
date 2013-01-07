@@ -1,8 +1,8 @@
 package com.domo.featurebuilder.controller;
 
-import com.domo.featurebuilder.endpoints.Endpoint;
-import com.domo.featurebuilder.endpoints.Feature;
-import com.domo.featurebuilder.endpoints.Scenario;
+import com.domo.featurebuilder.model.Endpoint;
+import com.domo.featurebuilder.model.Feature;
+import com.domo.featurebuilder.model.Scenario;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

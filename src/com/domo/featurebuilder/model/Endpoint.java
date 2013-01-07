@@ -1,4 +1,4 @@
-package com.domo.featurebuilder.endpoints;
+package com.domo.featurebuilder.model;
 
 import com.domo.featurebuilder.controller.HttpController;
 import com.domo.featurebuilder.controller.Main;

@@ -1,9 +1,9 @@
 package com.domo.featurebuilder.test;
 
 import com.domo.featurebuilder.controller.TemplateController;
-import com.domo.featurebuilder.endpoints.Endpoint;
-import com.domo.featurebuilder.endpoints.Feature;
-import com.domo.featurebuilder.endpoints.Scenario;
+import com.domo.featurebuilder.model.Endpoint;
+import com.domo.featurebuilder.model.Feature;
+import com.domo.featurebuilder.model.Scenario;
 import java.util.Arrays;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;

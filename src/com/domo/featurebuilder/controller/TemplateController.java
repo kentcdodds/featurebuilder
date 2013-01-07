@@ -1,6 +1,6 @@
 package com.domo.featurebuilder.controller;
 
-import com.domo.featurebuilder.endpoints.Feature;
+import com.domo.featurebuilder.model.Feature;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;

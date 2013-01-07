@@ -1,4 +1,4 @@
-package com.domo.featurebuilder.endpoints;
+package com.domo.featurebuilder.model;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
