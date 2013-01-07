@@ -1,7 +1,7 @@
-package com.kentcdodds.featurebuilder.controller;
+package com.domo.featurebuilder.controller;
 
-import com.kentcdodds.featurebuilder.endpoints.Endpoint;
-import com.kentcdodds.featurebuilder.endpoints.Feature;
+import com.domo.featurebuilder.endpoints.Endpoint;
+import com.domo.featurebuilder.endpoints.Feature;
 import java.util.List;
 import org.apache.http.HttpResponse;
 

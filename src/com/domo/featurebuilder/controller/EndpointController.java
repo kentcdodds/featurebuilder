@@ -1,7 +1,7 @@
-package com.kentcdodds.featurebuilder.controller;
+package com.domo.featurebuilder.controller;
 
 import au.com.bytecode.opencsv.CSVReader;
-import com.kentcdodds.featurebuilder.endpoints.Endpoint;
+import com.domo.featurebuilder.endpoints.Endpoint;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;

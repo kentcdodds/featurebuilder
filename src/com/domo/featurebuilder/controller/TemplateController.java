@@ -1,6 +1,6 @@
-package com.kentcdodds.featurebuilder.controller;
+package com.domo.featurebuilder.controller;
 
-import com.kentcdodds.featurebuilder.endpoints.Feature;
+import com.domo.featurebuilder.endpoints.Feature;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;

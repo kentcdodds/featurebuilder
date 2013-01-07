@@ -1,7 +1,7 @@
-package com.kentcdodds.featurebuilder.endpoints;
+package com.domo.featurebuilder.endpoints;
 
-import com.kentcdodds.featurebuilder.controller.HttpController;
-import com.kentcdodds.featurebuilder.controller.Main;
+import com.domo.featurebuilder.controller.HttpController;
+import com.domo.featurebuilder.controller.Main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

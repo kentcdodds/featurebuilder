@@ -1,6 +1,6 @@
-package com.kentcdodds.featurebuilder.endpoints;
+package com.domo.featurebuilder.endpoints;
 
-import com.kentcdodds.featurebuilder.controller.TemplateController;
+import com.domo.featurebuilder.controller.TemplateController;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.IOException;

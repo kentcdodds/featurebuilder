@@ -1,4 +1,4 @@
-package com.kentcdodds.featurebuilder.controller;
+package com.domo.featurebuilder.controller;
 
 import java.io.IOException;
 import java.net.CookieHandler;

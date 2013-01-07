@@ -1,9 +1,9 @@
-package com.kentcdodds.featurebuilder.test;
+package com.domo.featurebuilder.test;
 
-import com.kentcdodds.featurebuilder.controller.TemplateController;
-import com.kentcdodds.featurebuilder.endpoints.Endpoint;
-import com.kentcdodds.featurebuilder.endpoints.Feature;
-import com.kentcdodds.featurebuilder.endpoints.Scenario;
+import com.domo.featurebuilder.controller.TemplateController;
+import com.domo.featurebuilder.endpoints.Endpoint;
+import com.domo.featurebuilder.endpoints.Feature;
+import com.domo.featurebuilder.endpoints.Scenario;
 import java.util.Arrays;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;

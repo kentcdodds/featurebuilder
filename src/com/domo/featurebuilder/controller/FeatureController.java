@@ -1,8 +1,8 @@
-package com.kentcdodds.featurebuilder.controller;
+package com.domo.featurebuilder.controller;
 
-import com.kentcdodds.featurebuilder.endpoints.Endpoint;
-import com.kentcdodds.featurebuilder.endpoints.Feature;
-import com.kentcdodds.featurebuilder.endpoints.Scenario;
+import com.domo.featurebuilder.endpoints.Endpoint;
+import com.domo.featurebuilder.endpoints.Feature;
+import com.domo.featurebuilder.endpoints.Scenario;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
