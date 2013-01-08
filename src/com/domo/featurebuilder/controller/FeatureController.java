@@ -22,11 +22,13 @@ public class FeatureController {
 
   public List<Feature> createFeatures(List<Endpoint> endpoints) {
     List<Feature> features = new ArrayList<Feature>();
-    for (Endpoint endpoint : endpoints)
+    for (int i = 0; i < endpoints.size(); i++) {
+      Endpoint endpoint = endpoints.get(i);
       if (endpoint.isProcessed()) { //TODO: This is for testing only. Remove this in prod.
-        Feature feature = new Feature("Feature " + features.size(), Arrays.asList(new Scenario("Scenario " + features.size(), endpoint)), "");
+        Feature feature = new Feature("Feature " + i, Arrays.asList(new Scenario("Scenario " + i, endpoint)), "");
         features.add(feature);
       }
+    }
     return features;
   }
 

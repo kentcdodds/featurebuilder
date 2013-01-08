@@ -81,12 +81,15 @@ public class HttpController {
   private HttpClient trustEveryone() throws NoSuchAlgorithmException, KeyManagementException {
     SSLContext ctx = SSLContext.getInstance("TLS");
     X509TrustManager tm = new X509TrustManager() {
+      @Override
       public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {
       }
 
+      @Override
       public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {
       }
 
+      @Override
       public X509Certificate[] getAcceptedIssuers() {
         return null;
       }
