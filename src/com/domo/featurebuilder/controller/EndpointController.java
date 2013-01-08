@@ -17,9 +17,9 @@ public class EndpointController {
 
   private static EndpointController instance;
   public final String methodsToTest = ""
-//          + "PUT"
-//          + "POST"
-//          + "DELETE"
+          //          + "PUT"
+          //          + "POST"
+          //          + "DELETE"
           + "GET"
           + ""; //Just comment out the line that you don't want to test.
   /**
@@ -49,38 +49,43 @@ public class EndpointController {
     int skipped = 0;
     List<Endpoint> endpoints = new ArrayList<Endpoint>();
     while ((next = reader.readNext()) != null) {
-
-      final String method = next[0].toUpperCase();
-      String path = next[1];
-      boolean ignore = !next[2].isEmpty();
-
-      if (ignore || path.contains("{") || !methodsToTest.contains(method)) {
+      Endpoint endpoint = createEndpoint(next);
+      if (endpoint == null) {
         skipped++;
         continue;
       }
-
-      HttpRequestBase requestBase = new HttpRequestBase() {
-        @Override
-        public String getMethod() {
-          return method;
-        }
-      };
-      try {
-        requestBase.setURI(HttpController.getInstance().buildURI(path));
-        endpoints.add(new Endpoint(requestBase));
-      } catch (URISyntaxException ex) {
-        System.out.println("Problem with the URI for endpoint: " + path);
-        System.out.println(ex.getMessage());
-        System.out.println(ex.getReason());
-      }
+      endpoints.add(endpoint);
     }
-
     System.out.println("Total Endpoints Skipped: " + skipped);
     System.out.println("Total Endpoints: " + endpoints.size());
-
     return endpoints;
   }
+  
+  private Endpoint createEndpoint(String[] next) {
+    final String method = next[0].toUpperCase();
+    String path = next[1];
+    boolean ignore = !next[2].isEmpty();
 
+    if (ignore || path.contains("{") || !methodsToTest.contains(method))
+      return null;
+
+    HttpRequestBase requestBase = new HttpRequestBase() {
+      @Override
+      public String getMethod() {
+        return method;
+      }
+    };
+    try {
+      requestBase.setURI(HttpController.getInstance().buildURI(path));
+      return new Endpoint(requestBase);
+    } catch (URISyntaxException ex) {
+      System.err.println("Problem with the URI for endpoint: " + path);
+      System.err.println(ex.getMessage());
+      System.err.println(ex.getReason());
+    }
+    return null;
+  }
+  
   /**
    * Reads the endpoints located at a hard coded resourceLocation, then runs through the HttpRequestBases and executes
    * them on the client and prints the responses.
