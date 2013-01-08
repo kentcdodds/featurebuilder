@@ -60,7 +60,7 @@ public class EndpointController {
     System.out.println("Total Endpoints: " + endpoints.size());
     return endpoints;
   }
-  
+
   private Endpoint createEndpoint(String[] next) {
     final String method = next[0].toUpperCase();
     String path = next[1];
@@ -85,15 +85,7 @@ public class EndpointController {
     }
     return null;
   }
-  
-  /**
-   * Reads the endpoints located at a hard coded resourceLocation, then runs through the HttpRequestBases and executes
-   * them on the client and prints the responses.
-   *
-   * @throws ClientProtocolException
-   * @throws IOException
-   * @throws URISyntaxException
-   */
+
   public void runEndpoints(List<Endpoint> endpoints) {
     Map<Integer, Integer> statusCodeCount = new HashMap<Integer, Integer>();
     for (int i = 0; i < endpoints.size(); i++) {
@@ -101,7 +93,7 @@ public class EndpointController {
         continue;
       Endpoint endpoint = endpoints.get(i);
       try {
-        runEndpoint(endpoint);
+        endpoint.processEndpoint();
         addResponseCodeToCount(endpoint, statusCodeCount);
       } catch (IOException ex) {
         Logger.getLogger(EndpointController.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,10 +101,6 @@ public class EndpointController {
 
     }
     System.out.println("Status Code Count: " + statusCodeCount);
-  }
-
-  private void runEndpoint(Endpoint endpoint) throws IOException {
-    endpoint.processEndpoint();
   }
 
   private void addResponseCodeToCount(Endpoint endpoint, Map<Integer, Integer> statusCodeCount) {
