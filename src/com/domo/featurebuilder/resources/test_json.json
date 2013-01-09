@@ -1,0 +1,176 @@
+// Then I validate that the json has 3 objects at position .pages.3.children
+{
+  "pageList": [
+    2,
+    3,
+    7
+  ],
+  "pages": {
+    "3": {
+      "kpiList": [],
+      "pageList": [
+        31,
+        32,
+        33
+      ],
+      "pageName": "marketing",
+      "sharedView": true,
+      "pageVisible": true,
+      "pageMetaData": {
+        "title": "Marketing",
+        "type": "pagegroup"
+      },
+      "pageId": 3,
+      "kpiStateList": {},
+      "children": {
+        "32": {
+          "kpiList": [276230888],
+          "pageList": [],
+          "pageName": "branding",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Branding",
+            "type": "page"
+          },
+          "pageId": 32,
+          "kpiStateList": {"276230888": {}},
+          "children": {}
+        },
+        "31": {
+          "kpiList": [],
+          "pageList": [],
+          "pageName": "snapshot",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Overview",
+            "type": "page"
+          },
+          "pageId": 31,
+          "kpiStateList": {},
+          "children": {}
+        },
+        "33": {
+          "kpiList": [],
+          "pageList": [],
+          "pageName": "demand",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Demand Generation",
+            "type": "page"
+          },
+          "pageId": 33,
+          "kpiStateList": {},
+          "children": {}
+        }
+      }
+    },
+    "2": {
+      "kpiList": [],
+      "pageList": [
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "pageName": "sales",
+      "sharedView": true,
+      "pageVisible": true,
+      "pageMetaData": {
+        "title": "Sales",
+        "type": "pagegroup"
+      },
+      "pageId": 2,
+      "kpiStateList": {},
+      "children": {
+        "30": {
+          "kpiList": [],
+          "pageList": [],
+          "pageName": "customer",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Customer",
+            "type": "page"
+          },
+          "pageId": 30,
+          "kpiStateList": {},
+          "children": {}
+        },
+        "26": {
+          "kpiList": [],
+          "pageList": [],
+          "pageName": "snapshot",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Overview",
+            "type": "page"
+          },
+          "pageId": 26,
+          "kpiStateList": {},
+          "children": {}
+        },
+        "27": {
+          "kpiList": [],
+          "pageList": [],
+          "pageName": "pipeline",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Pipeline",
+            "type": "page"
+          },
+          "pageId": 27,
+          "kpiStateList": {},
+          "children": {}
+        },
+        "28": {
+          "kpiList": [],
+          "pageList": [],
+          "pageName": "performance",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Performance",
+            "type": "page"
+          },
+          "pageId": 28,
+          "kpiStateList": {},
+          "children": {}
+        },
+        "29": {
+          "kpiList": [],
+          "pageList": [],
+          "pageName": "leads",
+          "sharedView": true,
+          "pageVisible": true,
+          "pageMetaData": {
+            "title": "Leads",
+            "type": "page"
+          },
+          "pageId": 29,
+          "kpiStateList": {},
+          "children": {}
+        }
+      }
+    },
+    "7": {
+      "kpiList": [],
+      "pageList": [],
+      "pageName": "hr",
+      "sharedView": true,
+      "pageVisible": true,
+      "pageMetaData": {
+        "title": "HR",
+        "type": "page"
+      },
+      "pageId": 7,
+      "kpiStateList": {},
+      "children": {}
+    }
+  }
+}

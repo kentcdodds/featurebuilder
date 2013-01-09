@@ -30,6 +30,9 @@ public class Main {
     HttpResponse response = HttpController.getInstance().executePostOnClient("/domoweb/auth/signin",
             new String[]{"username", domoUsername},
             new String[]{"password", domoPassword});
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != 302)
+      throw new Exception("Status code != 302 >>> " + statusCode);
     HttpController.getInstance().consumeResponse(response);
     System.out.println("Signin successful");
   }

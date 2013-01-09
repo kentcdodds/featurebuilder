@@ -17,9 +17,9 @@ public class EndpointController {
 
   private static EndpointController instance;
   public final String methodsToTest = ""
-          //          + "PUT"
-          //          + "POST"
-          //          + "DELETE"
+//          + "PUT"
+//          + "POST"
+//          + "DELETE"
           + "GET"
           + ""; //Just comment out the line that you don't want to test.
   /**
