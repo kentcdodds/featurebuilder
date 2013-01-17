@@ -19,15 +19,15 @@ public class EndpointController {
 
     private static EndpointController instance;
     public final String methodsToTest = ""
-            //          + "PUT"
-            //          + "POST"
-            //          + "DELETE"
+                      + "PUT"
+                      + "POST"
+                      + "DELETE"
             + "GET"
             + ""; //Just comment out the line that you don't want to test.
     /**
      * Setting the limit to less than 0 will effectively make no limit.
      */
-    public final int limit = 3, offset = 15;
+    public final int limit = -1, offset = 15;
 
     private EndpointController() {
     }
@@ -50,13 +50,20 @@ public class EndpointController {
                 String[] next = reader.readNext();
         int skipped = 0;
         List<Endpoint> endpoints = new ArrayList<Endpoint>();
+        int i = -1;
         while ((next = reader.readNext()) != null) {
+            i++;
+            if (limit > 0 && i < offset)
+                continue;
+            if ((limit + offset) < i && limit > 0)
+                break;
             Endpoint endpoint = createEndpoint(next);
             if (endpoint == null) {
                 skipped++;
                 continue;
             }
             endpoints.add(endpoint);
+
         }
         System.out.println("Total Endpoints Skipped: " + skipped);
         System.out.println("Total Endpoints: " + endpoints.size());
@@ -92,8 +99,6 @@ public class EndpointController {
         Map<Integer, Integer> statusCodeCount = new HashMap<Integer, Integer>();
         for (int i = 0; i < endpoints.size(); i++) {
 //noinspection PointlessBooleanExpression, for readability
-            if (limit > 0 && (i <= offset || i > (offset + limit)))
-                continue;
             Endpoint endpoint = endpoints.get(i);
             try {
                 endpoint.processEndpoint();
@@ -130,5 +135,12 @@ public class EndpointController {
 
     public void printEndpointsToCSV(List<Endpoint> endpoints, File destiation) {
 
+    }
+
+    public void printAllJsonReturningEndpoints(List<Endpoint> endpoints) {
+        for (Endpoint endpoint : endpoints) {
+            if (endpoint.contentTypeIsJson())
+                System.out.println(endpoint.getRequestMethod() + "," + endpoint.getRequestPath());
+        }
     }
 }

@@ -19,7 +19,6 @@ public class TemplateController {
   private final String TEMPLATE_DIRECTORY = "/com/domo/featurebuilder/resources/templates";
   private final String FEATURE_TEMPLATE_FILENAME = "feature_template.feature";
   private final String SCENARIO_TEMPLATE_FILENAME = "scenario_template.feature";
-  private final File outputDirectory = new File(System.getProperty("user.home") + "/Desktop/Test Feature Output/");
   private Configuration cfg = new Configuration();
 
   private TemplateController() {
@@ -61,8 +60,6 @@ public class TemplateController {
   }
 
   private void setup() throws URISyntaxException, IOException, TemplateModelException {
-    if (!outputDirectory.exists())
-      outputDirectory.mkdir();
     cfg.setDirectoryForTemplateLoading(new File(TemplateController.class.getResource(TEMPLATE_DIRECTORY).toURI()));
     cfg.setObjectWrapper(new DefaultObjectWrapper());
     cfg.setSharedVariable("intro_comments",

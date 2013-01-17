@@ -2,6 +2,8 @@ package com.domo.featurebuilder.model;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -12,19 +14,13 @@ import java.util.Map;
 
 public class Feature {
 
-  private String name;
+  private String fileName;
   private List<Scenario> scenarios;
   private List<String> tags;
   private String featureText;
 
-  public Feature(String name, List<Scenario> scenarios, List<String> tags) {
-    this.name = name;
-    this.scenarios = scenarios;
-    this.tags = tags;
-  }
-
-  public Feature(String name, List<Scenario> scenarios, String... tags) {
-    this.name = name;
+  public Feature(String fileName, List<Scenario> scenarios, String... tags) {
+    this.fileName = fileName;
     this.scenarios = scenarios;
     this.tags = Arrays.asList(tags);
   }
@@ -38,7 +34,7 @@ public class Feature {
 
   private Map getTemplateMap() throws IOException, TemplateException {
     Map root = new HashMap();
-    root.put("name", name);
+    root.put("name", fileName);
     root.put("tags", tags);
     root.put("scenarios", getScenarioInfo());
     return root;
@@ -51,47 +47,10 @@ public class Feature {
     return scenarioInfo;
   }
 
-  /**
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
 
-  /**
-   * @param name the name to set
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
-   * @return the scenarios
-   */
-  public List<Scenario> getScenarios() {
-    return scenarios;
-  }
-
-  /**
-   * @param scenarios the scenarios to set
-   */
-  public void setScenarios(List<Scenario> scenarios) {
-    this.scenarios = scenarios;
-  }
-
-  /**
-   * @return the tags
-   */
-  public List<String> getTags() {
-    return tags;
-  }
-
-  /**
-   * @param tags the tags to set
-   */
-  public void setTags(List<String> tags) {
-    this.tags = tags;
-  }
+    public void save(File outputDirectory) {
+        //TODO: Start up here!!!
+    }
 
   /**
    * @return the featureText
@@ -100,10 +59,4 @@ public class Feature {
     return featureText;
   }
 
-  /**
-   * @param featureText the featureText to set
-   */
-  public void setFeatureText(String featureText) {
-    this.featureText = featureText;
-  }
 }

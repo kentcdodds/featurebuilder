@@ -24,6 +24,7 @@ public class Endpoint {
   private HttpRequestBase request;
   private HttpResponse response;
   private String responseContent;
+    private String responseContentType;
 
   public Endpoint(HttpRequestBase request) {
     this.request = request;
@@ -41,6 +42,10 @@ public class Endpoint {
   }
 
   private void generateResponseContent() throws IOException {
+      for (Header header : response.getAllHeaders()) {
+          if (header.getName().equalsIgnoreCase("Content-Type"))
+              responseContentType = header.getValue();
+      }
     BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
     String readLine;
     StringBuilder sb = new StringBuilder();
@@ -119,6 +124,10 @@ public class Endpoint {
     }
     return root;
   }
+
+    public boolean contentTypeIsJson() {
+        return responseContentType.matches("(?i).*application/json.*");
+    }
 
   @Override
   public String toString() {
