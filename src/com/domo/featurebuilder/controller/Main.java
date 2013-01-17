@@ -40,7 +40,7 @@ public class Main {
   private static void buildFeatures() throws Exception {
     List<Endpoint> endpoints = EndpointController.getInstance().readEndpointsFromCSVFile(endpointsCSVLocation);
     EndpointController.getInstance().runEndpoints(endpoints);
-
+    EndpointController.getInstance().printEndpoints(endpoints);
     List<Feature> features = FeatureController.getInstance().createFeatures(endpoints);
     TemplateController.getInstance().generateEndpointFeatures(features);
     FeatureController.getInstance().printFeatures(features);
