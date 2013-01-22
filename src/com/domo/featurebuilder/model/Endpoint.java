@@ -1,7 +1,7 @@
 package com.domo.featurebuilder.model;
 
 import com.domo.featurebuilder.controller.HttpController;
-import com.domo.featurebuilder.controller.Main;
+import com.domo.featurebuilder.helper.Helper;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,12 +16,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Endpoint {
 
+    private List<Feature> features;
     private HttpRequestBase request;
     private HttpResponse response;
     private String responseContent;
@@ -132,9 +134,9 @@ public class Endpoint {
 
     @Override
     public String toString() {
-        return "Path: " + getRequestPath() + Main.newline
-                + "Request:" + Main.newline + "\t" + getRequestAsString().replace(Main.newline, Main.newline + "\t") + Main.newline
-                + "Response:" + Main.newline + "\t" + getResponseAsString().replace(Main.newline, Main.newline + "\t");
+        return "Path: " + getRequestPath() + Helper.newline
+                + "Request:" + Helper.newline + "\t" + getRequestAsString().replace(Helper.newline, Helper.newline + "\t") + Helper.newline
+                + "Response:" + Helper.newline + "\t" + getResponseAsString().replace(Helper.newline, Helper.newline + "\t");
     }
 
     private String getResponseAsString() {
@@ -142,27 +144,27 @@ public class Endpoint {
             return "[null response]";
         HttpEntity entity = response.getEntity();
         StatusLine statusLine = response.getStatusLine();
-        return "Code: " + statusLine.getStatusCode() + Main.newline
-                + "Phrase: " + statusLine.getReasonPhrase() + Main.newline
-                + "Content Type: " + entity.getContentType().getName() + ": " + entity.getContentType().getValue() + Main.newline
-                + "Content Length: " + entity.getContentLength() + Main.newline
-                + "Headers: " + Main.newline
-                + "\t" + getHeadersAsString(response.getAllHeaders()).replace(Main.newline, Main.newline + "\t");
+        return "Code: " + statusLine.getStatusCode() + Helper.newline
+                + "Phrase: " + statusLine.getReasonPhrase() + Helper.newline
+                + "Content Type: " + entity.getContentType().getName() + ": " + entity.getContentType().getValue() + Helper.newline
+                + "Content Length: " + entity.getContentLength() + Helper.newline
+                + "Headers: " + Helper.newline
+                + "\t" + getHeadersAsString(response.getAllHeaders()).replace(Helper.newline, Helper.newline + "\t");
     }
 
     private String getRequestAsString() {
         if (request == null)
             return "[null request]";
-        return "URI: " + request.getURI() + Main.newline
-                + "Method: " + request.getRequestLine().getMethod() + Main.newline
-                + "Headers: " + Main.newline
-                + "\t" + getHeadersAsString(request.getAllHeaders()).replace(Main.newline, Main.newline + "\t");
+        return "URI: " + request.getURI() + Helper.newline
+                + "Method: " + request.getRequestLine().getMethod() + Helper.newline
+                + "Headers: " + Helper.newline
+                + "\t" + getHeadersAsString(request.getAllHeaders()).replace(Helper.newline, Helper.newline + "\t");
     }
 
     public String getHeadersAsString(Header... headers) {
         StringBuilder sb = new StringBuilder();
         for (Header header : headers)
-            sb.append(header.getName()).append(": ").append(header.getValue()).append(Main.newline);
+            sb.append(header.getName()).append(": ").append(header.getValue()).append(Helper.newline);
         if (headers.length == 0)
             sb.append("[no headers]");
         return sb.toString();

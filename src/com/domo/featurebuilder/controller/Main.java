@@ -16,12 +16,13 @@ public class Main {
     private static final String domoPassword = "enduserPassword";
 
     public static void main(String[] args) throws Exception {
-        startup();
-        buildFeatures();
-        exit();
+        Main m = new Main();
+        m.startup();
+        m.buildFeatures();
+        m.exit();
     }
 
-    private static void startup() throws Exception {
+    private void startup() throws Exception {
         try {
             signin();
         } catch (Exception ex) {
@@ -29,7 +30,7 @@ public class Main {
         }
     }
 
-    public static void signin() throws Exception {
+    private void signin() throws Exception {
         HttpResponse response = HttpController.getInstance().executePostOnClient("/domoweb/auth/signin",
                 new String[]{"username", domoUsername},
                 new String[]{"password", domoPassword});
@@ -40,7 +41,7 @@ public class Main {
         System.out.println("Signin successful");
     }
 
-    private static void buildFeatures() throws Exception {
+    private void buildFeatures() throws Exception {
         List<String[]> csvData = CSVHandler.getInstance().readEndpointsFromCSVFile(endpointsCSVLocation);
         List<Endpoint> endpoints = EndpointController.getInstance().createEndpointsFromCSVData(csvData);
         EndpointController.getInstance().runEndpoints(endpoints);
@@ -52,7 +53,7 @@ public class Main {
         FeatureController.getInstance().saveFeaturesToOutputDirectory(features);
     }
 
-    private static void exit() throws Exception {
+    private void exit() throws Exception {
         try {
             signout();
         } catch (Exception ex) {
@@ -60,7 +61,7 @@ public class Main {
         }
     }
 
-    public static void signout() throws Exception {
+    private void signout() throws Exception {
         HttpResponse response = HttpController.getInstance().executeGetOnClient("/domoweb/auth/signout");
         HttpController.getInstance().consumeResponse(response);
         System.out.println("Sign Out successful");

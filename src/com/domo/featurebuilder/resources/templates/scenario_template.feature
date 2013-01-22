@@ -1,4 +1,5 @@
-    Scenario: ${name}
+    @nightlyWIP
+    Scenario Outline: ${name}
         Given I authenticate to play
         Then I test the endpoint using:
         """
@@ -14,3 +15,6 @@
 ${response_content}
 
         """</#if>
+
+    @nightlyWIP
+    Examples:

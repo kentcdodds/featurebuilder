@@ -1,5 +1,6 @@
 package com.domo.featurebuilder.controller;
 
+import com.domo.featurebuilder.helper.Helper;
 import com.domo.featurebuilder.model.Endpoint;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -44,6 +45,10 @@ public class EndpointController {
         final String method = next[0].toUpperCase();
         String path = next[1];
         boolean ignore = !next[2].isEmpty();
+        String parentDirectory = next[3];
+        String featureName = next[4];
+
+        List<Feature> features = createFeatures(parentDirectory, featureName);
 
         if (ignore || path.contains("{") || !methodsToTest.contains(method))
             return null;
@@ -63,6 +68,10 @@ public class EndpointController {
             System.err.println(ex.getReason());
         }
         return null;
+    }
+
+    private List<Feature> createFeatures(String parentDirectory, String... featureName) {
+
     }
 
     public void runEndpoints(List<Endpoint> endpoints) {
@@ -99,9 +108,9 @@ public class EndpointController {
      */
     public void printEndpoints(List<Endpoint> endpoints) {
         for (Endpoint endpoint : endpoints) {
-            System.out.println("---------------------------------------------" + Main.newline);
+            System.out.println("---------------------------------------------" + Helper.newline);
             System.out.println(endpoint);
-            System.out.println(Main.newline + Main.newline);
+            System.out.println(Helper.newline + Helper.newline);
         }
     }
 
