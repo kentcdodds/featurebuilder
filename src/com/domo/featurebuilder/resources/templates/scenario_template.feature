@@ -9,7 +9,7 @@
                 :responseType => ${response_code}</#if>
             ${r"}"}
         """<#if response_content??>
-        And I validate the endpoint using:
+        Then I validate the endpoint JSON using strict keys and values:
         """
 
             ${response_content}
