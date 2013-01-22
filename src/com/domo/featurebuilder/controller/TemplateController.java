@@ -36,7 +36,7 @@ public class TemplateController {
         return instance;
     }
 
-    public void generateEndpointFeatures(List<Feature> features) {
+    public void generateFeatureFileText(List<Feature> features) {
         for (Feature feature : features)
             try {
                 Template template = getFeatureTemplate();

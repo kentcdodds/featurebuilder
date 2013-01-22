@@ -41,14 +41,9 @@ public class EndpointController {
         return endpointList;
     }
 
-    private Endpoint createEndpoint(String[] next) {
-        final String method = next[0].toUpperCase();
-        String path = next[1];
-        boolean ignore = !next[2].isEmpty();
-        String parentDirectory = next[3];
-        String featureName = next[4];
+    private Endpoint createEndpoint(String[] endpointData) {
+        boolean ignore = !endpointData[2].isEmpty();
 
-        List<Feature> features = createFeatures(parentDirectory, featureName);
 
         if (ignore || path.contains("{") || !methodsToTest.contains(method))
             return null;
@@ -58,10 +53,12 @@ public class EndpointController {
             public String getMethod() {
                 return method;
             }
+            
         };
         try {
             requestBase.setURI(HttpController.getInstance().buildURI(path));
-            return new Endpoint(requestBase);
+            List<Feature> features = createFeatures(endpointData);
+            return new Endpoint(requestBase, features);
         } catch (URISyntaxException ex) {
             System.err.println("Problem with the URI for endpoint: " + path);
             System.err.println(ex.getMessage());
@@ -70,8 +67,40 @@ public class EndpointController {
         return null;
     }
 
-    private List<Feature> createFeatures(String parentDirectory, String... featureName) {
-
+    private List<Feature> createFeatures(String[] endpointData) {
+        String parentDirectory = endpointData[3];
+        String featureName = endpointData[4];
+        String crud = endpointData[5];
+        
+        List<Feature> features = new ArrayList<Feature>();
+        
+        if (crud.contains("C")) {
+            List<Scenario> scenarios = createScenarios(featureName);
+            features.add(new Feature("create_" + featureName, scenarios, "@" + featureName));
+        }
+        if (crud.contains("R")) {
+            List<Scenario> scenarios = createScenarios(featureName);
+            features.add(new Feature("read_" + featureName, scenarios, "@" + featureName));
+        }
+        if (crud.contains("U")) {
+            List<Scenario> scenarios = createScenarios(featureName);
+            features.add(new Feature("update_" + featureName, scenarios, "@" + featureName));
+        }
+        if (crud.contains("D")) {
+            List<Scenario> scenarios = createScenarios(featureName);
+            features.add(new Feature("delete_" + featureName, scenarios, "@" + featureName));
+        }
+        
+        return features;
+    }
+    
+    private List<Scenario> createScenarios(String featureName){
+        List<Scenario> scenarios = new ArrayList<Scenario>();
+        happyPath = new Scenario(featureName + " (happy path)");
+        failPath = new Scenario(featureName + " (fail path)");
+        scenarios.add(happyPath);
+        scenarios.add(failPath);
+        return scenarios;
     }
 
     public void runEndpoints(List<Endpoint> endpoints) {

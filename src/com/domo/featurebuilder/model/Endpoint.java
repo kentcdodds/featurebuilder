@@ -29,8 +29,9 @@ public class Endpoint {
     private String responseContent;
     private String responseContentType;
 
-    public Endpoint(HttpRequestBase request) {
+    public Endpoint(HttpRequestBase request, List<Feature> features) {
         this.request = request;
+        this.features = features;
     }
 
     public void processEndpoint() throws IOException {

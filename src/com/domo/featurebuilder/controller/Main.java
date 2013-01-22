@@ -45,10 +45,7 @@ public class Main {
         List<String[]> csvData = CSVHandler.getInstance().readEndpointsFromCSVFile(endpointsCSVLocation);
         List<Endpoint> endpoints = EndpointController.getInstance().createEndpointsFromCSVData(csvData);
         EndpointController.getInstance().runEndpoints(endpoints);
-        EndpointController.getInstance().printEndpoints(endpoints);
-        List<Feature> features = FeatureController.getInstance().createFeatures(endpoints);
-        TemplateController.getInstance().generateEndpointFeatures(features);
-        //  EndpointController.getInstance().printAllJsonReturningEndpoints(endpoints);
+        TemplateController.getInstance().generateFeatureFileText(features);
         FeatureController.getInstance().printFeatures(features);
         FeatureController.getInstance().saveFeaturesToOutputDirectory(features);
     }
