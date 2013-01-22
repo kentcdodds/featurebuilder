@@ -24,10 +24,6 @@ public class EndpointController {
                       + "DELETE"
             + "GET"
             + ""; //Just comment out the line that you don't want to test.
-    /**
-     * Setting the limit to less than 0 will effectively make no limit.
-     */
-    public final int limit = -1, offset = 15;
 
     private EndpointController() {
     }
@@ -38,36 +34,12 @@ public class EndpointController {
         return instance;
     }
 
-    /**
-     * @param csvResourceLocation (expected to be a resource file within the package, not a file)
-     * @return a list of the HttpRequestBases read from the CSV file
-     * @throws IOException
-     * @throws URISyntaxException
-     */
-    public List<Endpoint> readEndpointsFromCSVFile(String csvResourceLocation) throws IOException {
-        CSVReader reader = new CSVReader(new InputStreamReader(getClass().getResourceAsStream(csvResourceLocation)));
-        @SuppressWarnings("UnusedAssignment") // To skip the header
-                String[] next = reader.readNext();
-        int skipped = 0;
-        List<Endpoint> endpoints = new ArrayList<Endpoint>();
-        int i = -1;
-        while ((next = reader.readNext()) != null) {
-            i++;
-            if (limit > 0 && i < offset)
-                continue;
-            if ((limit + offset) < i && limit > 0)
-                break;
-            Endpoint endpoint = createEndpoint(next);
-            if (endpoint == null) {
-                skipped++;
-                continue;
-            }
-            endpoints.add(endpoint);
-
-        }
-        System.out.println("Total Endpoints Skipped: " + skipped);
-        System.out.println("Total Endpoints: " + endpoints.size());
-        return endpoints;
+    public List<Endpoint> createEndpointsFromCSVData(List<String[]> endpointsToCreate){
+        List<Endpoint> endpointList = new ArrayList<Endpoint>();
+        for(String [] endpointToCreate : endpointsToCreate){
+            endpointList.add(createEndpoint(endpointToCreate));
+         }
+        return endpointList;
     }
 
     private Endpoint createEndpoint(String[] next) {
@@ -105,6 +77,8 @@ public class EndpointController {
                 addResponseCodeToCount(endpoint, statusCodeCount);
             } catch (IOException ex) {
                 Logger.getLogger(EndpointController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException nex) {
+                nex.printStackTrace();
             }
 
         }

@@ -5,6 +5,7 @@ import com.domo.featurebuilder.model.Feature;
 import com.domo.featurebuilder.model.Scenario;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +36,10 @@ public class FeatureController {
     return features;
   }
 
+//    public List<Feature> createFeatures(List<String []>){
+//
+//    }
+
   public void printFeatures(List<Feature> features) {
     for (Feature feature : features) {
       System.out.println("---------------------------------------------" + Main.newline);
@@ -45,7 +50,11 @@ public class FeatureController {
 
     public void saveFeaturesToOutputDirectory(List<Feature> features) {
         for (Feature feature : features) {
-            feature.save(outputDirectory);
+            try{
+                feature.save(outputDirectory);
+            } catch (IOException exception) {
+                System.out.println("Failed to save feature : "+ feature.getFilename());
+            }
         }
     }
 }

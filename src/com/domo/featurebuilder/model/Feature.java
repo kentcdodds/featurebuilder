@@ -5,6 +5,7 @@ import freemarker.template.TemplateException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,8 +49,11 @@ public class Feature {
   }
 
 
-    public void save(File outputDirectory) {
-        //TODO: Start up here!!!
+    public void save(File outputDirectory) throws IOException{
+        File featureFile = new File(outputDirectory, fileName);
+        PrintWriter printWriter = new PrintWriter(featureFile);
+        printWriter.write(featureText);
+        printWriter.close();
     }
 
   /**
@@ -57,6 +61,13 @@ public class Feature {
    */
   public String getFeatureText() {
     return featureText;
+  }
+
+   /**
+   * @return the fileName
+   */
+  public String getFilename() {
+    return fileName;
   }
 
 }
