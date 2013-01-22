@@ -56,16 +56,10 @@ public class Feature {
         printWriter.close();
     }
 
-  /**
-   * @return the featureText
-   */
   public String getFeatureText() {
     return featureText;
   }
 
-   /**
-   * @return the fileName
-   */
   public String getFilename() {
     return fileName;
   }

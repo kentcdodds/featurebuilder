@@ -1,5 +1,6 @@
 package com.domo.featurebuilder.controller;
 
+import com.domo.featurebuilder.helper.Helper;
 import com.domo.featurebuilder.model.Endpoint;
 import com.domo.featurebuilder.model.Feature;
 import com.domo.featurebuilder.model.Scenario;
@@ -13,7 +14,7 @@ import java.util.List;
 public class FeatureController {
 
   private static FeatureController instance;
-    private final File outputDirectory = new File(System.getProperty("user.home") + "/Desktop/Test Feature Output/");
+    private final File outputDirectory = new File(Helper.userHome + "/Desktop/Test Feature Output/");
 
   private FeatureController() {
   }
@@ -36,15 +37,11 @@ public class FeatureController {
     return features;
   }
 
-//    public List<Feature> createFeatures(List<String []>){
-//
-//    }
-
   public void printFeatures(List<Feature> features) {
     for (Feature feature : features) {
-      System.out.println("---------------------------------------------" + Main.newline);
+      System.out.println("---------------------------------------------" + Helper.newline);
       System.out.println(feature.getFeatureText());
-      System.out.println(Main.newline + Main.newline);
+      System.out.println(Helper.newline + Helper.newline);
     }
   }
 

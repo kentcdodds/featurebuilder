@@ -8,7 +8,7 @@ import org.apache.http.HttpResponse;
 
 public class Main {
 
-  public static final String newline = System.getProperty("line.separator");
+
   private static final String endpointsCSVLocation = "/com/domo/featurebuilder/resources/endpointSubset.csv";
   //private static final String endpointsCSVLocation = "/com/domo/featurebuilder/resources/domoWebEndpoints.csv";
   private static final String domoUsername = "qa6.tester@domosoftware.net";
