@@ -104,8 +104,8 @@ public class EndpointController {
     
     private List<Scenario> createScenarios(String featureName){
         List<Scenario> scenarios = new ArrayList<Scenario>();
-        Scenario happyPath = new Scenario(featureName + " (happy path)");
-        Scenario failPath = new Scenario(featureName + " (fail path)");
+        Scenario happyPath = new Scenario(featureName + " (happy path)", true);
+        Scenario failPath = new Scenario(featureName + " (fail path)", false);
         scenarios.add(happyPath);
         scenarios.add(failPath);
         return scenarios;

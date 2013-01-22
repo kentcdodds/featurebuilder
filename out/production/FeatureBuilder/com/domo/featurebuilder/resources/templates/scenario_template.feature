@@ -1,4 +1,4 @@
-    @hourlyWIP
+    @hourlyWIP <#list tags as tag>@${tag} </#list>
     Scenario Outline: ${name}
         Given I authenticate to play
         Then I test the endpoint using:
