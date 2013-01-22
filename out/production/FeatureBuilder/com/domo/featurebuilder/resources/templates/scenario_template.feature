@@ -1,5 +1,5 @@
     @hourlyWIP <#list tags as tag>@${tag} </#list>
-    Scenario Outline: ${name}
+    Scenario: ${name}
         Given I authenticate to play
         Then I test the endpoint using:
         """
@@ -15,6 +15,3 @@
             ${response_content}
 
         """</#if>
-
-    @hourlyWIP
-    Examples:
