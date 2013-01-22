@@ -19,7 +19,7 @@ public class Tester {
     private void testFeatures() {
         Feature feature = makeTestFeature("Test Feature", "tag1", "tag2");
         TemplateController tc = TemplateController.getInstance();
-        tc.generateEndpointFeatures(Arrays.asList(feature));
+        //tc.generateEndpointFeatures(Arrays.asList(feature));
         String featureText = feature.getFeatureText();
         System.out.println(featureText);
     }
@@ -28,18 +28,18 @@ public class Tester {
         Scenario s1 = makeTestScenario("Scenario 1");
         Scenario s2 = makeTestScenario("Scenario 1");
         Scenario s3 = makeTestScenario("Scenario 1");
-        return new Feature(name, Arrays.asList(s1, s2, s3), tags);
+        return null; //new Feature(name, Arrays.asList(s1, s2, s3), tags);
     }
 
     private Scenario makeTestScenario(String name) {
-        return new Scenario(name, makeTestEndpoint());
+        return null;// new Scenario(name, makeTestEndpoint());
     }
 
     private Endpoint makeTestEndpoint() {
-        return new Endpoint(makeTestRequest());
+        return null;// new Endpoint(makeTestRequest());
     }
 
     private HttpRequestBase makeTestRequest() {
-        return new HttpGet("http://www.google.com/");
+        return null;// new HttpGet("http://www.google.com/");
     }
 }

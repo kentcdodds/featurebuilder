@@ -2,6 +2,8 @@ package com.domo.featurebuilder.model;
 
 import com.domo.featurebuilder.controller.HttpController;
 import com.domo.featurebuilder.helper.Helper;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -102,7 +104,7 @@ public class Endpoint {
     }
 
     public void formatResponseContentIfIsJSON() {
-        int indentFactor = 2;
+        int indentFactor = 4;
         JSONObject jsonObject = getResponseContentAsJSONObject();
         JSONArray jsonArray;
         try {
@@ -124,7 +126,7 @@ public class Endpoint {
         root.put("endpoint_method", getRequestMethod());
         if (isProcessed()) {
             root.put("response_code", getResponseCode());
-            root.put("response_content", responseContent);
+            root.put("response_content", responseContent.replace(Helper.newline, Helper.newline + "            "));
         }
         return root;
     }
@@ -169,5 +171,27 @@ public class Endpoint {
         if (headers.length == 0)
             sb.append("[no headers]");
         return sb.toString();
+    }
+
+    public void generateFeatureText() throws IOException, TemplateException {
+        for (Feature feature : features) {
+            feature.generateFeatureText(getTemplateMap());
+        }
+    }
+
+    public List<Feature> getFeature() {
+        return features;
+    }
+
+    public void saveFeatures() {
+        for (Feature feature : features) {
+            try {
+                feature.save();
+            } catch (IOException e) {
+                System.err.println("Error saving feature: " + feature.getFilename());
+                System.err.println(e);
+                System.err.println(e.getStackTrace());
+            }
+        }
     }
 }

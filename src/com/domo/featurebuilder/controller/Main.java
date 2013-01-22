@@ -1,6 +1,7 @@
 package com.domo.featurebuilder.controller;
 
 import com.domo.featurebuilder.helper.CSVHandler;
+import com.domo.featurebuilder.helper.Helper;
 import com.domo.featurebuilder.model.Endpoint;
 import com.domo.featurebuilder.model.Feature;
 import org.apache.http.HttpResponse;
@@ -45,9 +46,10 @@ public class Main {
         List<String[]> csvData = CSVHandler.getInstance().readEndpointsFromCSVFile(endpointsCSVLocation);
         List<Endpoint> endpoints = EndpointController.getInstance().createEndpointsFromCSVData(csvData);
         EndpointController.getInstance().runEndpoints(endpoints);
-        TemplateController.getInstance().generateFeatureFileText(features);
-        FeatureController.getInstance().printFeatures(features);
-        FeatureController.getInstance().saveFeaturesToOutputDirectory(features);
+        TemplateController.getInstance().generateFeatureFileText(endpoints);
+
+        EndpointController.getInstance().saveEndpoints(endpoints);
+
     }
 
     private void exit() throws Exception {

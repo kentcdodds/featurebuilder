@@ -2,6 +2,8 @@ package com.domo.featurebuilder.controller;
 
 import com.domo.featurebuilder.helper.Helper;
 import com.domo.featurebuilder.model.Endpoint;
+import com.domo.featurebuilder.model.Scenario;
+import com.domo.featurebuilder.model.Feature;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import java.io.File;
@@ -36,14 +38,17 @@ public class EndpointController {
     public List<Endpoint> createEndpointsFromCSVData(List<String[]> endpointsToCreate) {
         List<Endpoint> endpointList = new ArrayList<Endpoint>();
         for (String[] endpointToCreate : endpointsToCreate) {
-            endpointList.add(createEndpoint(endpointToCreate));
+            Endpoint endpoint = createEndpoint(endpointToCreate);
+            if (endpoint != null)
+                endpointList.add(endpoint);
         }
         return endpointList;
     }
 
     private Endpoint createEndpoint(String[] endpointData) {
         boolean ignore = !endpointData[2].isEmpty();
-
+        String path = endpointData[1];
+        final String method = endpointData[0];
 
         if (ignore || path.contains("{") || !methodsToTest.contains(method))
             return null;
@@ -57,7 +62,13 @@ public class EndpointController {
         };
         try {
             requestBase.setURI(HttpController.getInstance().buildURI(path));
-            List<Feature> features = createFeatures(endpointData);
+
+            String parentDirectory = Helper.outputDirectory + Helper.fileSep + endpointData[3];
+            String featureName = endpointData[4];
+            String crud = endpointData[5];
+
+            List<Feature> features = createFeatures(parentDirectory, featureName, crud);
+
             return new Endpoint(requestBase, features);
         } catch (URISyntaxException ex) {
             System.err.println("Problem with the URI for endpoint: " + path);
@@ -67,28 +78,25 @@ public class EndpointController {
         return null;
     }
 
-    private List<Feature> createFeatures(String[] endpointData) {
-        String parentDirectory = endpointData[3];
-        String featureName = endpointData[4];
-        String crud = endpointData[5];
-        
+    private List<Feature> createFeatures(String parentDirectory, String featureName, String crud) {
+
         List<Feature> features = new ArrayList<Feature>();
         
         if (crud.contains("C")) {
             List<Scenario> scenarios = createScenarios(featureName);
-            features.add(new Feature("create_" + featureName, scenarios, "@" + featureName));
+            features.add(new Feature("create_" + featureName, parentDirectory, scenarios, featureName));
         }
         if (crud.contains("R")) {
             List<Scenario> scenarios = createScenarios(featureName);
-            features.add(new Feature("read_" + featureName, scenarios, "@" + featureName));
+            features.add(new Feature("read_" + featureName, parentDirectory, scenarios, featureName));
         }
         if (crud.contains("U")) {
             List<Scenario> scenarios = createScenarios(featureName);
-            features.add(new Feature("update_" + featureName, scenarios, "@" + featureName));
+            features.add(new Feature("update_" + featureName, parentDirectory, scenarios, featureName));
         }
         if (crud.contains("D")) {
             List<Scenario> scenarios = createScenarios(featureName);
-            features.add(new Feature("delete_" + featureName, scenarios, "@" + featureName));
+            features.add(new Feature("delete_" + featureName, parentDirectory, scenarios, featureName));
         }
         
         return features;
@@ -96,8 +104,8 @@ public class EndpointController {
     
     private List<Scenario> createScenarios(String featureName){
         List<Scenario> scenarios = new ArrayList<Scenario>();
-        happyPath = new Scenario(featureName + " (happy path)");
-        failPath = new Scenario(featureName + " (fail path)");
+        Scenario happyPath = new Scenario(featureName + " (happy path)");
+        Scenario failPath = new Scenario(featureName + " (fail path)");
         scenarios.add(happyPath);
         scenarios.add(failPath);
         return scenarios;
@@ -151,6 +159,16 @@ public class EndpointController {
         for (Endpoint endpoint : endpoints) {
             if (endpoint.contentTypeIsJson())
                 System.out.println(endpoint.getRequestMethod() + "," + endpoint.getRequestPath());
+        }
+    }
+
+    public void saveEndpoints(List<Endpoint> endpoints) {
+        File outputDirectory = new File(Helper.outputDirectory);
+        if (!outputDirectory.exists()) {
+            outputDirectory.mkdir();
+        }
+        for (Endpoint endpoint : endpoints) {
+            endpoint.saveFeatures();
         }
     }
 }

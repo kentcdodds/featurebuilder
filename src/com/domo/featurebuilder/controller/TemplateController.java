@@ -1,5 +1,7 @@
 package com.domo.featurebuilder.controller;
 
+import com.domo.featurebuilder.helper.Helper;
+import com.domo.featurebuilder.model.Endpoint;
 import com.domo.featurebuilder.model.Feature;
 import freemarker.template.*;
 
@@ -36,11 +38,10 @@ public class TemplateController {
         return instance;
     }
 
-    public void generateFeatureFileText(List<Feature> features) {
-        for (Feature feature : features)
+    public void generateFeatureFileText(List<Endpoint> endpoints) {
+        for (Endpoint endpoint : endpoints)
             try {
-                Template template = getFeatureTemplate();
-                feature.generateFeatureText(template);
+                endpoint.generateFeatureText();
             } catch (IOException ex) {
                 Logger.getLogger(TemplateController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (TemplateException ex) {
@@ -60,9 +61,9 @@ public class TemplateController {
         cfg.setDirectoryForTemplateLoading(new File(TemplateController.class.getResource(TEMPLATE_DIRECTORY).toURI()));
         cfg.setObjectWrapper(new DefaultObjectWrapper());
         cfg.setSharedVariable("intro_comments",
-                "# Authors:" + Main.newline
-                        + "#   Kent Dodds (kent.dodds@domo.com)" + Main.newline
-                        + "#   Mack Cope (mack.cope@domo.com)" + Main.newline
+                "# Authors:" + Helper.newline
+                        + "#   Kent Dodds (kent.dodds@domo.com)" + Helper.newline
+                        + "#   Mack Cope (mack.cope@domo.com)" + Helper.newline
                         + "# Manager: Doug Reid (doug.reid@domo.com)");
         cfg.setSharedVariable("global_tag", "@featureBuilder");
     }

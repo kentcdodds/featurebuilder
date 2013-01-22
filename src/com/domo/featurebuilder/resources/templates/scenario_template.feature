@@ -1,10 +1,10 @@
-    @nightlyWIP
+    @hourlyWIP
     Scenario Outline: ${name}
         Given I authenticate to play
         Then I test the endpoint using:
         """
             ${r"{"}
-                :endPointName => ${endpoint_path},
+                :endPointName => '${endpoint_path}',
                 :method => '${endpoint_method}'<#if response_code??>,
                 :responseType => ${response_code}</#if>
             ${r"}"}
@@ -12,9 +12,9 @@
         And I validate the endpoint using:
         """
 
-${response_content}
+            ${response_content}
 
         """</#if>
 
-    @nightlyWIP
+    @hourlyWIP
     Examples:
