@@ -1,12 +1,10 @@
 package com.domo.featurebuilder.controller;
 
-import au.com.bytecode.opencsv.CSVReader;
 import com.domo.featurebuilder.model.Endpoint;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +17,9 @@ public class EndpointController {
 
     private static EndpointController instance;
     public final String methodsToTest = ""
-                      + "PUT"
-                      + "POST"
-                      + "DELETE"
+            + "PUT"
+            + "POST"
+            + "DELETE"
             + "GET"
             + ""; //Just comment out the line that you don't want to test.
 
@@ -34,11 +32,11 @@ public class EndpointController {
         return instance;
     }
 
-    public List<Endpoint> createEndpointsFromCSVData(List<String[]> endpointsToCreate){
+    public List<Endpoint> createEndpointsFromCSVData(List<String[]> endpointsToCreate) {
         List<Endpoint> endpointList = new ArrayList<Endpoint>();
-        for(String [] endpointToCreate : endpointsToCreate){
+        for (String[] endpointToCreate : endpointsToCreate) {
             endpointList.add(createEndpoint(endpointToCreate));
-         }
+        }
         return endpointList;
     }
 
