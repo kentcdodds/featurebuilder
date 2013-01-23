@@ -83,32 +83,38 @@ public class EndpointController {
         List<Feature> features = new ArrayList<Feature>();
         
         if (crud.contains("C")) {
-            List<Scenario> scenarios = createScenarios(featureName);
+            List<Scenario> scenarios = createScenarios(featureName, true);
             features.add(new Feature("create_" + featureName, parentDirectory, scenarios, featureName));
         }
         if (crud.contains("R")) {
-            List<Scenario> scenarios = createScenarios(featureName);
+            List<Scenario> scenarios = createScenarios(featureName, false);
             features.add(new Feature("read_" + featureName, parentDirectory, scenarios, featureName));
         }
         if (crud.contains("U")) {
-            List<Scenario> scenarios = createScenarios(featureName);
+            List<Scenario> scenarios = createScenarios(featureName, true);
             features.add(new Feature("update_" + featureName, parentDirectory, scenarios, featureName));
         }
         if (crud.contains("D")) {
-            List<Scenario> scenarios = createScenarios(featureName);
+            List<Scenario> scenarios = createScenarios(featureName, true);
             features.add(new Feature("delete_" + featureName, parentDirectory, scenarios, featureName));
         }
         
         return features;
     }
     
-    private List<Scenario> createScenarios(String featureName){
+    private List<Scenario> createScenarios(String featureName, boolean makeFailPath){
         List<Scenario> scenarios = new ArrayList<Scenario>();
-        Scenario happyPath = new Scenario(featureName + " (happy path)", true);
-        Scenario failPath = new Scenario(featureName + " (fail path)", false);
-        scenarios.add(happyPath);
-        scenarios.add(failPath);
+        scenarios.add(createHappyPathScenario(featureName));
+        if (makeFailPath)
+            scenarios.add(createFailPathScenario(featureName));
         return scenarios;
+    }
+
+    private Scenario createHappyPathScenario(String featureName) {
+        return new Scenario(featureName + " (happy path)", true);
+    }
+    private Scenario createFailPathScenario(String featureName) {
+        return new Scenario(featureName + " (fail path)", false);
     }
 
     public void runEndpoints(List<Endpoint> endpoints) {

@@ -59,6 +59,9 @@ public class Endpoint {
             sb.append(readLine);
         reader.close();
         responseContent = sb.toString();
+        if (responseContent.length() < 1 || responseContent.isEmpty()) {
+            System.out.println("This has responseContent less length of 1 (or it's empty)!! " + request.getURI());
+        }
     }
 
     private void consumeResponseEntity() throws IOException {
@@ -126,7 +129,8 @@ public class Endpoint {
         root.put("endpoint_method", getRequestMethod());
         if (isProcessed()) {
             root.put("response_code", getResponseCode());
-            root.put("response_content", responseContent.replace(Helper.newline, Helper.newline + "            "));
+            if (responseContent.length() > 1 && !responseContent.isEmpty())
+                root.put("response_content", responseContent.replace(Helper.newline, Helper.newline + "            "));
         }
         return root;
     }
