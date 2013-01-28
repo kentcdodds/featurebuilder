@@ -39,7 +39,7 @@ public class CSVHandler {
             if ((limit + offset) < i && limit > 0)
                 break;
             csvRows.add(next);
-            System.out.println("Row Data >>>> " + next[0] + " " + next[1]);
+            //System.out.println("Row Data >>>> " + next[0] + " " + next[1]);
         }
         System.out.println("Total rows retrieved: " + csvRows.size());
         return csvRows;

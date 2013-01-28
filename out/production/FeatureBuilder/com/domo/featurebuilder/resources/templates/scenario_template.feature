@@ -6,10 +6,12 @@
             ${r"{"}
                 :endPointName => '${endpoint_path}',
                 :method => '${endpoint_method}'<#if response_code??>,
-                :responseType => ${response_code}</#if>
+                :responseType => ${response_code}</#if><#if request_body??>,
+                :body => '${request_body}',
+                :bodyType => '${body_type}'</#if>
             ${r"}"}
         """<#if response_content??>
-        Then I validate the endpoint JSON using strict keys and values:
+        Then I validate the endpoint additive JSON by key using:
         """
 
             ${response_content}

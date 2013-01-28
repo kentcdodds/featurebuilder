@@ -1,5 +1,6 @@
 package com.domo.featurebuilder.controller;
 
+import com.domo.featurebuilder.helper.Helper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
@@ -42,7 +43,6 @@ public class HttpController {
     public final String CHARSET = "UTF-8";
     public static final String METHOD_GET = HeaderConstants.GET_METHOD;
     public static final String METHOD_PUT = HeaderConstants.PUT_METHOD;
-    public static final String METHOD_POST = "POST";
     public static final String METHOD_DELETE = HeaderConstants.DELETE_METHOD;
 
     private HttpController() {
@@ -118,7 +118,7 @@ public class HttpController {
     }
 
     public HttpResponse executePostOnClient(String path, String[]... params) throws Exception {
-        return executeOnClient(METHOD_POST, path, params);
+        return executeOnClient(Helper.METHOD_POST, path, params);
     }
 
     public HttpResponse executeOnClient(final String method, String endpoint, String[]... params) throws IOException, URISyntaxException {

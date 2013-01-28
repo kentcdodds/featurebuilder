@@ -4,10 +4,13 @@ import com.domo.featurebuilder.helper.Helper;
 import com.domo.featurebuilder.model.Endpoint;
 import com.domo.featurebuilder.model.Scenario;
 import com.domo.featurebuilder.model.Feature;
-import org.apache.http.client.methods.HttpRequestBase;
-
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,27 +50,53 @@ public class EndpointController {
 
     private Endpoint createEndpoint(String[] endpointData) {
         boolean ignore = !endpointData[2].isEmpty();
-        String path = endpointData[1];
-        final String method = endpointData[0];
+        String path = endpointData[0];
+        final String method = endpointData[1];
+        String urlToUse = endpointData[3];
+        final String requestContent = endpointData[4];
+
 
         if (ignore || path.contains("{") || !methodsToTest.contains(method))
             return null;
 
-        HttpRequestBase requestBase = new HttpRequestBase() {
+        HttpEntityEnclosingRequestBase requestBase = new HttpEntityEnclosingRequestBase() {
             @Override
             public String getMethod() {
                 return method;
             }
+
+            @Override
+            public HttpEntity getEntity() {
+                try{
+                    return new StringEntity(requestContent, ContentType.APPLICATION_JSON);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
             
         };
         try {
-            requestBase.setURI(HttpController.getInstance().buildURI(path));
 
-            String parentDirectory = Helper.outputDirectory + Helper.fileSep + endpointData[3];
-            String featureName = endpointData[4];
-            String crud = endpointData[5];
+            if(method.equals(Helper.METHOD_POST) || method.equals(Helper.METHOD_PUT) || method.equals(Helper.METHOD_PATCH))
+                requestBase.setURI(HttpController.getInstance().buildURI(urlToUse));
 
-            List<Feature> features = createFeatures(parentDirectory, featureName, crud);
+            else
+                requestBase.setURI(HttpController.getInstance().buildURI(path));
+            String parentDirectory;
+            String featureName;
+
+            if(!endpointData[5].isEmpty()) {
+                String [] pathValues = endpointData[5].split("/");
+                System.out.println(pathValues[0]);
+                parentDirectory = Helper.outputDirectory + Helper.fileSep + pathValues[0];
+                featureName = pathValues[1];
+            }else{
+                return null;
+            }
+
+
+            List<Feature> features = createFeatures(parentDirectory, featureName);
 
             return new Endpoint(requestBase, features);
         } catch (URISyntaxException ex) {
@@ -78,26 +107,11 @@ public class EndpointController {
         return null;
     }
 
-    private List<Feature> createFeatures(String parentDirectory, String featureName, String crud) {
+    private List<Feature> createFeatures(String parentDirectory, String featureName) {
 
         List<Feature> features = new ArrayList<Feature>();
-        
-        if (crud.contains("C")) {
-            List<Scenario> scenarios = createScenarios(featureName, true);
-            features.add(new Feature("create_" + featureName, parentDirectory, scenarios, featureName));
-        }
-        if (crud.contains("R")) {
-            List<Scenario> scenarios = createScenarios(featureName, false);
-            features.add(new Feature("read_" + featureName, parentDirectory, scenarios, featureName));
-        }
-        if (crud.contains("U")) {
-            List<Scenario> scenarios = createScenarios(featureName, true);
-            features.add(new Feature("update_" + featureName, parentDirectory, scenarios, featureName));
-        }
-        if (crud.contains("D")) {
-            List<Scenario> scenarios = createScenarios(featureName, true);
-            features.add(new Feature("delete_" + featureName, parentDirectory, scenarios, featureName));
-        }
+        List<Scenario> scenarios = createScenarios(featureName, true);
+        features.add(new Feature(featureName, parentDirectory, scenarios, featureName));
         
         return features;
     }
