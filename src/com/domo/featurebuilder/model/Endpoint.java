@@ -155,12 +155,15 @@ public class Endpoint {
         if (isProcessed()) {
             root.put("response_code", getResponseCode());
             if (requestContent != null && requestContent.length() > 1 && !requestContent.isEmpty()) {
-                root.put("request_body", requestContent.replace(Helper.newline, Helper.newline + "            "));
+                root.put("request_body", requestContent.replace(Helper.newline, Helper.newline + "              "));
+                //root.put("body_type", request.)
             }
             if (responseContent != null && responseContent.length() > 1 && !responseContent.isEmpty()) {
                 root.put("response_content", responseContent.replace(Helper.newline, Helper.newline + "            "));
+                System.out.println(getRequestPath()+ " Response Content>>>>>>>>    "+responseContent);
             }
         }
+        System.out.println(root);
         return root;
     }
 

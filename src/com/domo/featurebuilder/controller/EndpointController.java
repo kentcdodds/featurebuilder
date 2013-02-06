@@ -11,6 +11,7 @@ import org.apache.http.entity.StringEntity;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,8 +54,17 @@ public class EndpointController {
         String path = endpointData[0];
         final String method = endpointData[1];
         String urlToUse = endpointData[3];
+        if (urlToUse == null || urlToUse.isEmpty()) {
+            urlToUse = path;
+        }
         final String requestContent = endpointData[4];
-
+        String[] keyValuePairs = endpointData[6].split("&");
+        String[][] params = new String[keyValuePairs.length][2];
+        for (int i = 0; i < keyValuePairs.length; i++) {
+            String keyValue = keyValuePairs[i];
+            String[] kv = keyValue.split("=");
+            params[i] = kv;
+        }
 
         if (ignore || path.contains("{") || !methodsToTest.contains(method))
             return null;
@@ -78,22 +88,25 @@ public class EndpointController {
         };
         try {
 
-            if(method.equals(Helper.METHOD_POST) || method.equals(Helper.METHOD_PUT) || method.equals(Helper.METHOD_PATCH))
-                requestBase.setURI(HttpController.getInstance().buildURI(urlToUse));
-
+            if(method.equals(Helper.METHOD_POST) || method.equals(Helper.METHOD_PUT) || method.equals(Helper.METHOD_PATCH)){
+                requestBase.setURI(HttpController.getInstance().buildURI(urlToUse, params));
+                System.out.println(requestBase.getURI());
+            }
             else
-                requestBase.setURI(HttpController.getInstance().buildURI(path));
+                requestBase.setURI(HttpController.getInstance().buildURI(urlToUse));
             String parentDirectory;
             String featureName;
 
             if(!endpointData[5].isEmpty()) {
                 String [] pathValues = endpointData[5].split("/");
-                System.out.println(pathValues[0]);
-                parentDirectory = Helper.outputDirectory + Helper.fileSep + pathValues[0];
-                featureName = pathValues[1];
+                System.out.println("Paths >>> "+pathValues[1] + " > " + pathValues[2]);
+
+                parentDirectory = Helper.outputDirectory + Helper.fileSep + pathValues[1];
+                featureName = pathValues[2];
             }else{
                 return null;
             }
+
 
 
             List<Feature> features = createFeatures(parentDirectory, featureName);
